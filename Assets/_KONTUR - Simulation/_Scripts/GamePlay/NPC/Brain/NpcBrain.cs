@@ -1,0 +1,68 @@
+﻿using System.Collections.Generic;
+using _KONTUR___Simulation._Scripts.GamePlay.NPC.Sensors;
+using KofeyekToolkit.LifeCycle.Interfaces;
+using KofeyekToolkit.TickSystem;
+using UnityEngine;
+using UnityEngine.AI;
+
+namespace _KONTUR___Simulation._Scripts.GamePlay.NPC.Brain
+{
+    [RequireComponent(typeof(NavMeshAgent))]
+    public sealed class NpcBrain : MonoBehaviour, ITickable, ISpawnable, IDespawnable
+    {
+        [field: SerializeField] public NavMeshAgent Agent { get; private set; }
+        [field: SerializeField] public NpcRoute Route { get; private set; }
+        [field: SerializeField] public NpcConfig Config { get; private set; }
+        [SerializeField] private float _updateInterval = 0.2f;
+        [SerializeField] private NpcVision _vision;
+        
+        private StateMachine _stateMachine;
+        private float _updateTimer;
+        private bool _isInit;
+        
+        public WaypointsPatrolState PatrolState { get; private set; }
+        public ChaseState ChaseState { get; private set; }
+        
+        public NpcBlackboard Blackboard { get; private set; }
+        public TickPhase Phase => TickPhase.SimulationPhase;
+
+        public void OnSpawn()
+        {
+            Blackboard = new NpcBlackboard();
+            _updateTimer = Random.Range(0f, _updateTimer);
+            _stateMachine = new StateMachine();
+            
+            PatrolState = new WaypointsPatrolState(this, _stateMachine);
+            ChaseState = new ChaseState(this, _stateMachine);
+        }
+
+        public void Initialize(Transform player)
+        {
+            _vision.Initialize(Blackboard, player);
+            _stateMachine.ChangeState(PatrolState);
+            _isInit = true;
+        }
+        
+        public void Tick(float deltaTime)
+        {
+            if (!_isInit)
+                return;
+            
+            _updateTimer -= deltaTime;
+            if (_updateTimer <= 0)
+            {
+                _stateMachine.Update();
+                _updateTimer = _updateInterval;
+            }
+        }
+
+        public void OnDespawn()
+        {
+            Blackboard = null;
+            Agent = null;
+            _stateMachine = null;
+            _updateTimer = 0f;
+            _isInit = false;
+        }
+    }
+}

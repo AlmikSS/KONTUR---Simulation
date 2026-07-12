@@ -25,7 +25,13 @@ namespace KofeyekToolkit.LifeCycle
                 _pools.Add(id, pool);
             }
         }
-
+        
+        public void Spawn(GameObject prefab, Vector3 position, Quaternion rotation, Action<GameObject> action, Transform parent = null)
+        {
+            var request = new SpawnGameObjectRequest(prefab, position, rotation, action, parent);
+            _spawnQueue.Enqueue(request);
+        }
+        
         public void Spawn<T>(T prefab, Vector3 position, Quaternion rotation, Action<T> action, Transform parent = null) where T : Component
         {
             var request = new SpawnRequest<T>(prefab, position, rotation, action, parent);
@@ -60,6 +66,24 @@ namespace KofeyekToolkit.LifeCycle
                 Object.Destroy(instance);
             }
         }
+        
+        internal GameObject ExecutePhysicalSpawnGameObject(GameObject prefab, Vector3 position, Quaternion rotation, Transform parent = null)
+        {
+            var id = prefab.GetEntityId();
+            GameObject instance = null;
+
+            if (_pools.TryGetValue(id, out var pool))
+            {
+                instance = pool.Get(position, rotation, parent);
+            }
+            else
+            {
+                instance = Object.Instantiate(prefab, position, rotation, parent);
+            }
+    
+            NotifyComponents<ISpawnable>(instance, component => component.OnSpawn());
+            return instance;
+        }
 
         internal T ExecutePhysicalSpawn<T>(T prefab, Vector3 position, Quaternion rotation, Transform parent = null) where T : Component
         {
@@ -72,7 +96,7 @@ namespace KofeyekToolkit.LifeCycle
             }
             else
             {
-                instance = Object.Instantiate(prefab, position, rotation, parent).gameObject;
+                instance = Object.Instantiate(prefab.gameObject, position, rotation, parent);
             }
             
             NotifyComponents<ISpawnable>(instance, component => component.OnSpawn());

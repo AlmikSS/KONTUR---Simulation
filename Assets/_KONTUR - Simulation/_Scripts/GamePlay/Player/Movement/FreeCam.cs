@@ -2,12 +2,13 @@ using _KONTUR___Simulation._Scripts;
 using _KONTUR___Simulation._Scripts.Input;
 using Core.Input;
 using KofeyekToolkit.DevConsole;
+using KofeyekToolkit.LifeCycle.Interfaces;
 using TriInspector;
 using UnityEngine;
 
 namespace GamePlay.Player
 {
-    public class FreeCam : MonoBehaviour
+    public class FreeCam : MonoBehaviour, ISpawnable, IDespawnable
     {
         [Title("Dependencies")]
         [SerializeField] private MonoBehaviour[] _componentsToDisable;
@@ -25,9 +26,14 @@ namespace GamePlay.Player
         
         private Vector2 _lookRotation;
 
-        private void Start()
+        public void OnSpawn()
         {
             _inputSystem = ServiceLocator.Get<InputSystem>();
+        }
+
+        public void OnDespawn()
+        {
+            _inputSystem = null;
         }
 
         private void LateUpdate()

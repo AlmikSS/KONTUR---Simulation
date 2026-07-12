@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace KofeyekToolkit.LifeCycle
 {
-    public struct SpawnRequest<T> : ISpawnRequest where T : Component
+    internal struct SpawnRequest<T> : ISpawnRequest where T : Component
     {
         private readonly T _prefab;
         private readonly Vector3 _position;

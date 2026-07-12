@@ -2,12 +2,13 @@ using _KONTUR___Simulation._Scripts;
 using _KONTUR___Simulation._Scripts.Input;
 using Core.Input;
 using KofeyekToolkit.DevConsole;
+using KofeyekToolkit.LifeCycle.Interfaces;
 using TriInspector;
 using UnityEngine;
 
 namespace GamePlay.Player
 {
-    public class PlayerCamera : MonoBehaviour
+    public class PlayerCamera : MonoBehaviour, ISpawnable, IDespawnable
     {
         [Title("Dependencies")]
         [SerializeField] private PlayerMovement _playerMovement;
@@ -39,12 +40,20 @@ namespace GamePlay.Player
 
         public Vector3 LookRotation => _lookRotation;
 
-        private void Start()
+        public void OnSpawn()
         {
             _inputSystem = ServiceLocator.Get<InputSystem>();
 
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+        }
+
+        public void OnDespawn()
+        {
+            _inputSystem = null;
+
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = true;
         }
         
         private void LateUpdate()

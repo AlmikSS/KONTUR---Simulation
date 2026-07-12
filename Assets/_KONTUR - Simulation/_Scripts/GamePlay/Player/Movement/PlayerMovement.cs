@@ -2,13 +2,14 @@
 using _KONTUR___Simulation._Scripts.Input;
 using Core.Input;
 using KofeyekToolkit.DevConsole;
+using KofeyekToolkit.LifeCycle.Interfaces;
 using KofeyekToolkit.TickSystem;
 using UnityEngine;
 
 namespace GamePlay.Player
 {
     [RequireComponent(typeof(CharacterController))]
-    public class PlayerMovement : MonoBehaviour, ITickable
+    public class PlayerMovement : MonoBehaviour, ITickable, ISpawnable, IDespawnable
     {
         [SerializeField] private Transform _orientationTransform;
         [SerializeField] private float _walkSpeed;
@@ -28,16 +29,18 @@ namespace GamePlay.Player
         public bool IsGrounded => _cc.isGrounded;
         public bool JumpsEnabled => _jumpsEnabled;
 
-        private void Start()
+        public void OnSpawn()
         {
             _cc = GetComponent<CharacterController>();
             _inputSystem = ServiceLocator.Get<InputSystem>();
             ServiceLocator.Get<TickSystem>().Register(this);
         }
 
-        private void OnDestroy()
+        public void OnDespawn()
         {
             ServiceLocator.Get<TickSystem>().Unregister(this);
+            _cc = null;
+            _inputSystem = null;
         }
         
         public void Tick(float deltaTime)

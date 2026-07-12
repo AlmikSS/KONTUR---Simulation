@@ -18,7 +18,7 @@ namespace _KONTUR___Simulation._Scripts
         private EventBus _eventBus;
         private SpawnService _spawnService;
         
-        private void Start()
+        private void Awake()
         {
             _eventBus = new EventBus();
             _spawnService = new SpawnService();

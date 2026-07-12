@@ -33,8 +33,7 @@ namespace GamePlay.Player
         
         public void Tick(float deltaTime)
         {
-            if (!Physics.Raycast(_interactionOrigin.position, _interactionOrigin.forward, out var hit, _interactionDistance) 
-                || !hit.collider.gameObject.TryGetComponent(out IInteractable interactable))
+            if (!Physics.Raycast(_interactionOrigin.position, _interactionOrigin.forward, out var hit, _interactionDistance) || !hit.collider.gameObject.TryGetComponent(out IInteractable interactable))
             {
                 ResetHint();
                 return;
@@ -50,6 +49,9 @@ namespace GamePlay.Player
             
             if (_inputSystem.Snapshot.InteractInput)
                 interactable.Interact(gameObject);
+            
+            if (_inputSystem.Snapshot.SecondInteractInput)
+                interactable.SecondaryInteract(gameObject);
         }
 
         private void ResetHint()

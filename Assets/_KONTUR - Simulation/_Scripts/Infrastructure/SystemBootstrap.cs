@@ -1,4 +1,5 @@
 ﻿using _KONTUR___Simulation._Scripts.Input;
+using KofeyekToolkit.DevConsole;
 using KofeyekToolkit.Events;
 using KofeyekToolkit.LifeCycle;
 using KofeyekToolkit.TickSystem;
@@ -11,6 +12,7 @@ namespace _KONTUR___Simulation._Scripts
         [SerializeField] private TickSystem _tickSystem;
         [SerializeField] private InputSystem _inputSystem;
         [SerializeField] private SpawnPoolsConfig _spawnPoolsConfig;
+        [SerializeField] private GamePlayBootstrap _gamePlayBootstrap;
         [SerializeField] private Transform _poolsRoot;
         
         private EventBus _eventBus;
@@ -32,6 +34,9 @@ namespace _KONTUR___Simulation._Scripts
             ServiceLocator.Register(_spawnService);
             ServiceLocator.Register(_eventBus);
             ServiceLocator.Register(_inputSystem);
+            
+            CommandsRegistry.RegisterAllCommands();
+            _gamePlayBootstrap.Initialize();
             
             _tickSystem.StartTicks();
         }

@@ -18,6 +18,7 @@ namespace _KONTUR___Simulation._Scripts.GamePlay.NPC.Brain
         
         private StateMachine _stateMachine;
         private float _updateTimer;
+        private float _lastUpdateTime;
         private bool _isInit;
         
         public WaypointsPatrolState PatrolState { get; private set; }
@@ -51,8 +52,10 @@ namespace _KONTUR___Simulation._Scripts.GamePlay.NPC.Brain
             _updateTimer -= deltaTime;
             if (_updateTimer <= 0)
             {
-                _stateMachine.Update();
+                var delta = Time.time - _lastUpdateTime;
+                _stateMachine.Update(delta);
                 _updateTimer = _updateInterval;
+                _lastUpdateTime = Time.time;
             }
         }
 

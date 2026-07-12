@@ -6,6 +6,8 @@ namespace _KONTUR___Simulation._Scripts.GamePlay.NPC
     {
         private readonly NpcBrain _npcBrain;
         private readonly StateMachine _stateMachine;
+        
+        public string Name => "Chase";
 
         public ChaseState(NpcBrain npcBrain, StateMachine stateMachine)
         {
@@ -19,7 +21,7 @@ namespace _KONTUR___Simulation._Scripts.GamePlay.NPC
             _npcBrain.Agent.speed = _npcBrain.Config.ChaseSpeed;
         }
 
-        public void Update()
+        public void Update(float deltaTime)
         {
             if (!_npcBrain.Blackboard.IsPlayerInVision)
             {

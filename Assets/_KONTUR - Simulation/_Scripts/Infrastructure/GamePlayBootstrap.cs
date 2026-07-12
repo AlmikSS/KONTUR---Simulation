@@ -28,7 +28,7 @@ namespace _KONTUR___Simulation._Scripts
             });
 
             var enemyFactory = new EnemyFactory(_enemyPrefab, _waypoints, _spawnService, _playerTransform);
-            enemyFactory.Create(new Vector3(0, 1, 70), Quaternion.identity);
+            enemyFactory.Create(new Vector3(0, 1, 30), Quaternion.identity);
         }
     }
 }

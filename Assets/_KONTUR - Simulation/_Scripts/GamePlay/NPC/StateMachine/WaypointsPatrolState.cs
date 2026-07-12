@@ -11,6 +11,8 @@ namespace _KONTUR___Simulation._Scripts.GamePlay.NPC
         private float _waitTimer;
         private bool _isWaiting;
         
+        public string Name => "Waypoints Patrol";
+        
         public WaypointsPatrolState(NpcBrain npcBrain, StateMachine stateMachine)
         {
             _npcBrain = npcBrain;
@@ -25,7 +27,7 @@ namespace _KONTUR___Simulation._Scripts.GamePlay.NPC
             MoveToCurrentWaypoint();
         }
 
-        public void Update()
+        public void Update(float deltaTime)
         {
             if (_npcBrain.Blackboard.IsPlayerInVision)
             {
@@ -35,7 +37,7 @@ namespace _KONTUR___Simulation._Scripts.GamePlay.NPC
 
             if (_isWaiting)
             {
-                _waitTimer -= Time.deltaTime;
+                _waitTimer -= deltaTime;
                 if (_waitTimer <= 0)
                 {
                     _isWaiting = false;

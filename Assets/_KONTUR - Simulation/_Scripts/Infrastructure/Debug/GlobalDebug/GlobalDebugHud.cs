@@ -1,4 +1,3 @@
-
 using System.Text;
 using _KONTUR___Simulation._Scripts;
 using _KONTUR___Simulation._Scripts.Input;
@@ -141,6 +140,15 @@ namespace Tools.GlobalDebug
             _debugText.text = _sb.ToString();
         }
 
+        [Command("debug", "")]
+        private void EnableDebugMode(bool enable)
+        {
+            CommandExecutor.Execute($"toggle_debug_hud {enable}");
+            CommandExecutor.Execute($"toggle_npc_debug {enable}");
+            CommandExecutor.Execute($"show_player_info {enable}");
+            CommandExecutor.Execute($"show_input_info {enable}");
+        }
+
         [Command("toggle_debug_hud", "Toggles the global debug information panel")]
         private void ToggleDebugHUD(bool enable)
         {
@@ -154,6 +162,18 @@ namespace Tools.GlobalDebug
                 _debugText.enabled = _isVisible;
             }
             Debug.Log($"Debug HUD {(_isVisible ? "Enabled" : "Disabled")}");
+        }
+
+        [Command("toggle_npc_debug", "Shows npc debug info")]
+        private void ToggleNpcDebug(bool enable)
+        {
+            var npcs = FindObjectsByType<NpcDebugHud>();
+            foreach (var npc in npcs)
+            {
+                npc.ShowNpcDebug(enable);
+            }
+            
+            Debug.Log($"Npc debug {(_isVisible ? "Enabled" : "Disabled")}");
         }
 
         [Command("show_player_info", "Shows the player information on global debug hud")]

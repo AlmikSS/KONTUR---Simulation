@@ -1,10 +1,11 @@
 ﻿using _KONTUR___Simulation._Scripts.GamePlay.NPC.Brain;
+using KofeyekToolkit.LifeCycle.Interfaces;
 using KofeyekToolkit.TickSystem;
 using UnityEngine;
 
 namespace _KONTUR___Simulation._Scripts.GamePlay.NPC.Sensors
 {
-    public sealed class NpcVision : MonoBehaviour, ITickable
+    public sealed class NpcVision : MonoBehaviour, ITickable, ISpawnable, IDespawnable
     {
         [SerializeField] private Transform _visionOrigin;
         [SerializeField] private LayerMask _visionLayerMask;
@@ -21,15 +22,27 @@ namespace _KONTUR___Simulation._Scripts.GamePlay.NPC.Sensors
         
         public TickPhase Phase => TickPhase.PostSimulationPhase;
 
+        public void OnSpawn()
+        {
+            _sqrVisionDistance = _visionDistance * _visionDistance;
+            _cosVisionAngle = Mathf.Cos(_visionAngle * 0.5f * Mathf.Deg2Rad);
+            _visionTimer = Random.Range(0, _visionCheckInterval);
+            ServiceLocator.Get<TickSystem>().Register(this);
+        }
+
+        public void OnDespawn()
+        {
+            ServiceLocator.Get<TickSystem>().Unregister(this);
+            _sqrVisionDistance = 0f;
+            _cosVisionAngle = 0f;
+            _visionTimer = 0f;
+            _isInit = false;
+        }
+        
         public void Initialize(NpcBlackboard blackboard, Transform playerTransform)
         {
             _blackboard = blackboard;
             _playerTransform = playerTransform;
-            
-            _sqrVisionDistance = _visionDistance * _visionDistance;
-            _cosVisionAngle = Mathf.Cos(_visionAngle * 0.5f * Mathf.Deg2Rad);
-            _visionTimer = Random.Range(0, _visionCheckInterval);
-            
             _isInit = true;
         }
         

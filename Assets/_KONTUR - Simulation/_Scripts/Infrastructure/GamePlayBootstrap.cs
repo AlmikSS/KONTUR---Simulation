@@ -25,10 +25,10 @@ namespace _KONTUR___Simulation._Scripts
             {
                 _playerTransform = o.transform;
                 Debug.Log("Player spawned");
+                
+                var enemyFactory = new EnemyFactory(_enemyPrefab, _waypoints, _spawnService, _playerTransform);
+                enemyFactory.Create(new Vector3(0, 1, 30), Quaternion.identity);
             });
-
-            var enemyFactory = new EnemyFactory(_enemyPrefab, _waypoints, _spawnService, _playerTransform);
-            enemyFactory.Create(new Vector3(0, 1, 30), Quaternion.identity);
         }
     }
 }

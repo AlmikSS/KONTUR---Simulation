@@ -25,7 +25,11 @@ namespace _KONTUR___Simulation._Scripts.GamePlay.NPC.Brain
         public ChaseState ChaseState { get; private set; }
         
         public NpcBlackboard Blackboard { get; private set; }
+        public StateMachine StateMachine => _stateMachine;
         public TickPhase Phase => TickPhase.SimulationPhase;
+        public bool IsInit => _isInit;
+        public float UpdateTimer => _updateTimer;
+        public float LastUpdateTime => _lastUpdateTime;
 
         public void OnSpawn()
         {
@@ -35,6 +39,8 @@ namespace _KONTUR___Simulation._Scripts.GamePlay.NPC.Brain
             
             PatrolState = new WaypointsPatrolState(this, _stateMachine);
             ChaseState = new ChaseState(this, _stateMachine);
+            
+            ServiceLocator.Get<TickSystem>().Register(this);
         }
 
         public void Initialize(Transform player)
@@ -61,6 +67,7 @@ namespace _KONTUR___Simulation._Scripts.GamePlay.NPC.Brain
 
         public void OnDespawn()
         {
+            ServiceLocator.Get<TickSystem>().Unregister(this);
             Blackboard = null;
             Agent = null;
             _stateMachine = null;

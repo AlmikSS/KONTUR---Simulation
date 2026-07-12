@@ -15,7 +15,7 @@ namespace KofeyekToolkit.LifeCycle
         private readonly Queue<GameObject> _despawnQueue = new();
 
         public TickPhase Phase => TickPhase.SpawnDespawnPhase;
-        
+
         internal void Initialize(SpawnPoolsConfig poolsConfig, Transform poolsRoot = null)
         {
             foreach (var config in poolsConfig.Pools)
@@ -25,14 +25,16 @@ namespace KofeyekToolkit.LifeCycle
                 _pools.Add(id, pool);
             }
         }
-        
-        public void Spawn(GameObject prefab, Vector3 position, Quaternion rotation, Action<GameObject> action, Transform parent = null)
+
+        public void Spawn(GameObject prefab, Vector3 position, Quaternion rotation, Action<GameObject> action,
+            Transform parent = null)
         {
             var request = new SpawnGameObjectRequest(prefab, position, rotation, action, parent);
             _spawnQueue.Enqueue(request);
         }
-        
-        public void Spawn<T>(T prefab, Vector3 position, Quaternion rotation, Action<T> action, Transform parent = null) where T : Component
+
+        public void Spawn<T>(T prefab, Vector3 position, Quaternion rotation, Action<T> action, Transform parent = null)
+            where T : Component
         {
             var request = new SpawnRequest<T>(prefab, position, rotation, action, parent);
             _spawnQueue.Enqueue(request);
@@ -42,7 +44,7 @@ namespace KofeyekToolkit.LifeCycle
         {
             _despawnQueue.Enqueue(instance);
         }
-        
+
         public void Tick(float deltaTime)
         {
             while (_spawnQueue.Count > 0)
@@ -61,13 +63,14 @@ namespace KofeyekToolkit.LifeCycle
                     pool.Return(instance);
                     continue;
                 }
-                
+
                 NotifyComponents<IDestroyable>(instance, component => component.OnDestroyed());
                 Object.Destroy(instance);
             }
         }
-        
-        internal GameObject ExecutePhysicalSpawnGameObject(GameObject prefab, Vector3 position, Quaternion rotation, Transform parent = null)
+
+        internal GameObject ExecutePhysicalSpawnGameObject(GameObject prefab, Vector3 position, Quaternion rotation,
+            Transform parent = null)
         {
             var id = prefab.GetEntityId();
             GameObject instance = null;
@@ -79,13 +82,15 @@ namespace KofeyekToolkit.LifeCycle
             else
             {
                 instance = Object.Instantiate(prefab, position, rotation, parent);
+                NotifyComponents<IInitializable>(instance, component => component.OnCreate());
             }
-    
+
             NotifyComponents<ISpawnable>(instance, component => component.OnSpawn());
             return instance;
         }
 
-        internal T ExecutePhysicalSpawn<T>(T prefab, Vector3 position, Quaternion rotation, Transform parent = null) where T : Component
+        internal T ExecutePhysicalSpawn<T>(T prefab, Vector3 position, Quaternion rotation, Transform parent = null)
+            where T : Component
         {
             var id = prefab.gameObject.GetEntityId();
             GameObject instance = null;
@@ -97,16 +102,18 @@ namespace KofeyekToolkit.LifeCycle
             else
             {
                 instance = Object.Instantiate(prefab.gameObject, position, rotation, parent);
+                NotifyComponents<IInitializable>(instance, component => component.OnCreate());
             }
-            
+
             NotifyComponents<ISpawnable>(instance, component => component.OnSpawn());
-            return  instance.GetComponent<T>();
+            return instance.GetComponent<T>();
         }
-        
-        internal void NotifyComponents<TInterface>(GameObject target, Action<TInterface> action) where TInterface : class
+
+        internal void NotifyComponents<TInterface>(GameObject target, Action<TInterface> action)
+            where TInterface : class
         {
             var components = target.GetComponents<TInterface>();
-            
+
             foreach (var component in components)
             {
                 action(component);

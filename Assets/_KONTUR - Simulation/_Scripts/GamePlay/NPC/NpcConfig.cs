@@ -9,10 +9,13 @@ namespace _KONTUR___Simulation._Scripts.GamePlay.NPC
         [SerializeField] private float _chaseSpeed;
         [SerializeField] private float _patrolSpeed;
         [SerializeField, MinMaxSlider(0, 10f)] private Vector2 _waitMinMaxTime;
+        [SerializeField, MinMaxSlider(0, 10f)] private Vector2 _bewildermentMinMaxTime;
         
         public float ChaseSpeed => _chaseSpeed;
         public float PatrolSpeed => _patrolSpeed;
         public float MinWaitTime => _waitMinMaxTime.x;
         public float MaxWaitTime => _waitMinMaxTime.y;
+        public float MinBewildermentTime => _bewildermentMinMaxTime.x;
+        public float MaxBewildermentTime => _bewildermentMinMaxTime.y;
     }
 }

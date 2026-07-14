@@ -23,6 +23,7 @@ namespace _KONTUR___Simulation._Scripts.GamePlay.NPC.Brain
         
         public WaypointsPatrolState PatrolState { get; private set; }
         public ChaseState ChaseState { get; private set; }
+        public BewildermentState BewildermentState { get; private set; }
         
         public NpcBlackboard Blackboard { get; private set; }
         public StateMachine StateMachine => _stateMachine;
@@ -39,6 +40,7 @@ namespace _KONTUR___Simulation._Scripts.GamePlay.NPC.Brain
             
             PatrolState = new WaypointsPatrolState(this, _stateMachine);
             ChaseState = new ChaseState(this, _stateMachine);
+            BewildermentState = new BewildermentState(this, _stateMachine);
             
             ServiceLocator.Get<TickSystem>().Register(this);
         }

@@ -25,7 +25,7 @@ namespace _KONTUR___Simulation._Scripts.GamePlay.NPC
         {
             if (!_npcBrain.Blackboard.IsPlayerInVision)
             {
-                _stateMachine.ChangeState(_npcBrain.PatrolState);
+                _stateMachine.ChangeState(_npcBrain.BewildermentState);
                 return;
             }
             

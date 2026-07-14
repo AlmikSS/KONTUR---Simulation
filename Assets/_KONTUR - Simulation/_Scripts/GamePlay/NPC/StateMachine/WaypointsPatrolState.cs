@@ -7,7 +7,6 @@ namespace _KONTUR___Simulation._Scripts.GamePlay.NPC
     {
         private readonly NpcBrain _npcBrain;
         private readonly StateMachine _stateMachine;
-        
         private float _waitTimer;
         private bool _isWaiting;
         

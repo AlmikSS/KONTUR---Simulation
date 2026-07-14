@@ -1,6 +1,6 @@
 ﻿namespace KofeyekToolkit.LifeCycle.Interfaces
 {
-    public interface IInitializable
+    public interface IInitializable 
     {
         void OnCreate();
     }

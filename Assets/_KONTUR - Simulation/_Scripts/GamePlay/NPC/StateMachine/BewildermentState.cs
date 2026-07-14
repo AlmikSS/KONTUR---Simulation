@@ -10,7 +10,7 @@ namespace _KONTUR___Simulation._Scripts.GamePlay.NPC
         private float _waitTimer;
         private bool _isWaiting;
         
-        public string Name => "BewildermentStateBewildermentState";
+        public string Name => "Bewilderment";
 
         public BewildermentState(NpcBrain npcBrain, StateMachine stateMachine)
         {

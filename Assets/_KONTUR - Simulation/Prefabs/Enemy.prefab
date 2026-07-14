@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 3856230459897243624}
   - component: {fileID: 7500387829288821449}
   - component: {fileID: 7445616616947652600}
+  - component: {fileID: 2185792794172669851}
   - component: {fileID: 1149981453969182487}
   - component: {fileID: 6353016415907674351}
   - component: {fileID: 7043818347100550703}
@@ -175,6 +176,18 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &2185792794172669851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 620893429614259459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82b122e8ba804ba59cd7e625294e9eb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KofeyekToolkit.LifeCycle.SceneLifecycleObject
 --- !u!114 &1149981453969182487
 MonoBehaviour:
   m_ObjectHideFlags: 0

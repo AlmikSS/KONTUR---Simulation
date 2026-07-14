@@ -1,4 +1,5 @@
-﻿using _KONTUR___Simulation._Scripts.Input;
+﻿using _KONTUR___Simulation._Scripts.GamePlay.Progression;
+using _KONTUR___Simulation._Scripts.Input;
 using KofeyekToolkit.DevConsole;
 using KofeyekToolkit.Events;
 using KofeyekToolkit.LifeCycle;
@@ -17,11 +18,13 @@ namespace _KONTUR___Simulation._Scripts
         
         private EventBus _eventBus;
         private SpawnService _spawnService;
+        private ProgressionService _progressionService;
         
         private void Awake()
         {
             _eventBus = new EventBus();
             _spawnService = new SpawnService();
+            _progressionService = new ProgressionService(_eventBus);
             
             _tickSystem.Initialize();
             _spawnService.Initialize(_spawnPoolsConfig, _poolsRoot);
@@ -34,10 +37,15 @@ namespace _KONTUR___Simulation._Scripts
             ServiceLocator.Register(_spawnService);
             ServiceLocator.Register(_eventBus);
             ServiceLocator.Register(_inputSystem);
+            ServiceLocator.Register(_progressionService);
+
+            var objects = FindObjectsByType<SceneLifecycleObject>();
+            foreach (var obj in objects)
+            {
+                _spawnService.RegisterExistingSceneObject(obj.gameObject);
+            }
             
-            CommandsRegistry.RegisterAllCommands();
             _gamePlayBootstrap.Initialize();
-            
             _tickSystem.StartTicks();
         }
     }

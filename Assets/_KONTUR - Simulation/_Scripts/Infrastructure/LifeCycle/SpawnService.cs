@@ -13,6 +13,7 @@ namespace KofeyekToolkit.LifeCycle
         private readonly Dictionary<EntityId, ObjectPool> _pools = new();
         private readonly Queue<ISpawnRequest> _spawnQueue = new();
         private readonly Queue<GameObject> _despawnQueue = new();
+        private readonly Queue<GameObject> _pendingSpawnQueue = new();
 
         public TickPhase Phase => TickPhase.SpawnDespawnPhase;
 
@@ -26,15 +27,22 @@ namespace KofeyekToolkit.LifeCycle
             }
         }
 
-        public void Spawn(GameObject prefab, Vector3 position, Quaternion rotation, Action<GameObject> action,
-            Transform parent = null)
+        public void RegisterExistingSceneObject(GameObject instance)
+        {
+            if (instance == null)
+                return;
+
+            NotifyComponents<IInitializable>(instance, component => component.OnCreate());
+            _pendingSpawnQueue.Enqueue(instance);
+        }
+
+        public void Spawn(GameObject prefab, Vector3 position, Quaternion rotation, Action<GameObject> action, Transform parent = null)
         {
             var request = new SpawnGameObjectRequest(prefab, position, rotation, action, parent);
             _spawnQueue.Enqueue(request);
         }
 
-        public void Spawn<T>(T prefab, Vector3 position, Quaternion rotation, Action<T> action, Transform parent = null)
-            where T : Component
+        public void Spawn<T>(T prefab, Vector3 position, Quaternion rotation, Action<T> action, Transform parent = null) where T : Component
         {
             var request = new SpawnRequest<T>(prefab, position, rotation, action, parent);
             _spawnQueue.Enqueue(request);
@@ -47,6 +55,12 @@ namespace KofeyekToolkit.LifeCycle
 
         public void Tick(float deltaTime)
         {
+            while (_pendingSpawnQueue.Count > 0)
+            {
+                var instance = _pendingSpawnQueue.Dequeue();
+                NotifyComponents<ISpawnable>(instance, component => component.OnSpawn());
+            }
+            
             while (_spawnQueue.Count > 0)
             {
                 var request = _spawnQueue.Dequeue();
@@ -69,8 +83,7 @@ namespace KofeyekToolkit.LifeCycle
             }
         }
 
-        internal GameObject ExecutePhysicalSpawnGameObject(GameObject prefab, Vector3 position, Quaternion rotation,
-            Transform parent = null)
+        internal GameObject ExecutePhysicalSpawnGameObject(GameObject prefab, Vector3 position, Quaternion rotation, Transform parent = null)
         {
             var id = prefab.GetEntityId();
             GameObject instance = null;
@@ -89,8 +102,7 @@ namespace KofeyekToolkit.LifeCycle
             return instance;
         }
 
-        internal T ExecutePhysicalSpawn<T>(T prefab, Vector3 position, Quaternion rotation, Transform parent = null)
-            where T : Component
+        internal T ExecutePhysicalSpawn<T>(T prefab, Vector3 position, Quaternion rotation, Transform parent = null) where T : Component
         {
             var id = prefab.gameObject.GetEntityId();
             GameObject instance = null;
@@ -109,8 +121,7 @@ namespace KofeyekToolkit.LifeCycle
             return instance.GetComponent<T>();
         }
 
-        internal void NotifyComponents<TInterface>(GameObject target, Action<TInterface> action)
-            where TInterface : class
+        internal void NotifyComponents<TInterface>(GameObject target, Action<TInterface> action) where TInterface : class
         {
             var components = target.GetComponents<TInterface>();
 

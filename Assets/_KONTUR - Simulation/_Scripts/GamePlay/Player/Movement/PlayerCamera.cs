@@ -58,11 +58,11 @@ namespace GamePlay.Player
         
         private void LateUpdate()
         {
-            if (_inputSystem == null || _inputSystem.Snapshot.Context != InputContext.GamePlay || !enabled)
+            if (_inputSystem == null || _inputSystem.Context != InputContext.GamePlay || !enabled)
                 return;
-            
+
+            var lookInput = _inputSystem.CurrentLookInput;
             var deltaTime = Time.deltaTime;
-            var lookInput = _inputSystem.Snapshot.LookInput;
             
             CalculateBaseMouseLook(lookInput);
             CalculateCameraBob(deltaTime);

@@ -25,10 +25,24 @@ namespace _KONTUR___Simulation._Scripts.Input
         
         public TickPhase Phase => TickPhase.InputPhase;
         public InputSnapshot Snapshot => _snapshot;
+        public InputContext Context => _context;
+        public Vector2 CurrentMoveInput => _currentMoveInput;
+        public Vector2 CurrentLookInput => _currentLookInput;
 
         public void Initialize()
         {
             _inputActions = new InputActions();
+            
+            _inputActions.Player.Interact.performed += _ => _interactInput = true;
+            _inputActions.Player.SecondInteraction.performed += _ => _secondInteractInput = true;
+            _inputActions.Player.Crouch.performed += _ => _crouchInput = true;
+            _inputActions.Player.OpenConsole.performed += _ => _openConsole = true;
+            _inputActions.Player.Jump.performed += _ => _jumpInput = true;
+            _inputActions.Player.Slot1.performed += _ => _slot1Input = true;
+            _inputActions.Player.Slot2.performed += _ => _slot2Input = true;
+            _inputActions.Player.Slot3.performed += _ => _slot3Input = true;
+            _inputActions.Player.Slot4.performed += _ => _slot4Input = true;
+            
             _inputActions.Enable();
             _isConstruct = true;
         }
@@ -86,33 +100,6 @@ namespace _KONTUR___Simulation._Scripts.Input
             if (!_isConstruct) 
                 return;
             
-            if (_inputActions.Player.Interact.WasPressedThisFrame())
-                _interactInput = true;
-            
-            if (_inputActions.Player.SecondInteraction.WasPressedThisFrame())
-                _secondInteractInput = true;
-            
-            if (_inputActions.Player.Crouch.WasPressedThisFrame())
-                _crouchInput = true;
-            
-            if (_inputActions.Player.Slot1.WasPressedThisFrame())
-                _slot1Input = true;
-            
-            if (_inputActions.Player.Slot2.WasPressedThisFrame())
-                _slot2Input = true;
-            
-            if (_inputActions.Player.Slot3.WasPressedThisFrame())
-                _slot3Input = true;
-            
-            if (_inputActions.Player.Slot4.WasPressedThisFrame())
-                _slot4Input = true;
-
-            if (_inputActions.Player.OpenConsole.WasPressedThisFrame())
-                _openConsole = true;
-
-            if (_inputActions.Player.Jump.WasPressedThisFrame())
-                _jumpInput = true;
-
             _currentMoveInput = _inputActions.Player.Move.ReadValue<Vector2>();
             _currentLookInput = _inputActions.Player.Look.ReadValue<Vector2>();
         }

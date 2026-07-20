@@ -50,7 +50,7 @@ namespace GamePlay.Player
 
             var snapshot = _inputSystem.Snapshot;
             
-            var moveInput = snapshot.MoveInput;
+            var moveInput = _inputSystem.CurrentMoveInput;
             var input = new Vector3(moveInput.x, 0, moveInput.y);
             input = Vector3.ClampMagnitude(input, 1f);
 

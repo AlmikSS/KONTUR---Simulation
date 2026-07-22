@@ -1,4 +1,6 @@
-﻿using _KONTUR___Simulation._Scripts;
+﻿using System.Collections;
+using System.Threading.Tasks;
+using _KONTUR___Simulation._Scripts;
 using _KONTUR___Simulation._Scripts.Input;
 using Core.Input;
 using KofeyekToolkit.DevConsole;
@@ -17,14 +19,19 @@ namespace GamePlay.Player
         [SerializeField] private float _gravityScale; 
         [SerializeField] private float _jumpHeight;
         [SerializeField] private bool _jumpsEnabled;
+        [SerializeField] private float _moveToSpeed;
+        [SerializeField] private float _moveToThreshold;
         
+        private Coroutine _moveToRoutine;
         private CharacterController _cc;
+        private Collider[] _cols;
         private InputSystem _inputSystem;
-        private Vector3 _horizontalHorizontalVelocity;
+        private Vector3 _horizontalVelocity;
         private float _verticalVelocity;
+        private bool _blocked;
         
         public TickPhase Phase => TickPhase.SimulationPhase;
-        public Vector3 HorizontalVelocity => _horizontalHorizontalVelocity;
+        public Vector3 HorizontalVelocity => _horizontalVelocity;
         public float VerticalVelocity => _verticalVelocity;
         public bool IsGrounded => _cc.isGrounded;
         public bool JumpsEnabled => _jumpsEnabled;
@@ -32,6 +39,7 @@ namespace GamePlay.Player
         public void OnSpawn()
         {
             _cc = GetComponent<CharacterController>();
+            _cols = GetComponentsInChildren<Collider>();
             _inputSystem = ServiceLocator.Get<InputSystem>();
             ServiceLocator.Get<TickSystem>().Register(this);
         }
@@ -40,6 +48,7 @@ namespace GamePlay.Player
         {
             ServiceLocator.Get<TickSystem>().Unregister(this);
             _cc = null;
+            _cols = null;
             _inputSystem = null;
         }
         
@@ -56,7 +65,8 @@ namespace GamePlay.Player
 
             var worldDirection = _orientationTransform.TransformDirection(input);
             var targetVelocity = worldDirection * _walkSpeed;
-            _horizontalHorizontalVelocity = Vector3.Lerp(_horizontalHorizontalVelocity, targetVelocity, _acceleration * deltaTime);
+            if (!_blocked)
+                _horizontalVelocity = Vector3.Lerp(_horizontalVelocity, targetVelocity, _acceleration * deltaTime);
 
             if (_cc.isGrounded)
                 _verticalVelocity = -2f;
@@ -66,17 +76,56 @@ namespace GamePlay.Player
             if (snapshot.JumpInput)
                 Jump();
             
-            var finalVelocity = _horizontalHorizontalVelocity + Vector3.up * _verticalVelocity;
-            _cc.Move(finalVelocity * deltaTime);
+            var finalVelocity = _horizontalVelocity + Vector3.up * _verticalVelocity;
+            if (_cc.enabled)
+                _cc.Move(finalVelocity * deltaTime);
         }
 
         private void Jump()
         {
-            if (!_cc.isGrounded || !_jumpsEnabled)
+            if (!_cc.isGrounded || !_jumpsEnabled || _blocked)
                 return;
 
             _verticalVelocity = 0f;
             _verticalVelocity += _jumpHeight;
+        }
+
+        [Command("block_movement", "Blocks player movement")]
+        public void BlockMovement(bool block)
+        {
+            _blocked = block;
+            
+            if (_blocked)
+                _horizontalVelocity = Vector3.zero;
+            
+            Debug.Log("Block movement: " + _blocked);
+        }
+
+        [Command("move", "Moves player to point")]
+        public void MoveTo(Vector3 point)
+        {
+            if (_moveToRoutine != null)
+                StopCoroutine(_moveToRoutine);
+            
+            _moveToRoutine = StartCoroutine(MoveToRoutine(point));
+            Debug.Log("Move to: " + point);
+        }
+
+        private IEnumerator MoveToRoutine(Vector3 point)
+        {
+            _cc.enabled = false;
+            foreach (var col in _cols)
+                col.enabled = false;
+
+            while (Vector3.Distance(point, transform.position) > _moveToThreshold)
+            {
+                transform.position = Vector3.Lerp(transform.position, point, Time.deltaTime * _moveToSpeed);
+                yield return null;
+            }
+            
+            _cc.enabled = true;
+            foreach (var col in _cols)
+                col.enabled = true;
         }
 
         [Command("set_jump_enable", "Enable/disable jumps")]

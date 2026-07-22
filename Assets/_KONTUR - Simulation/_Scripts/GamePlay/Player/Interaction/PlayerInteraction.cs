@@ -48,7 +48,9 @@ namespace GamePlay.Player
                 ResetHint();
             
             if (_inputSystem.Snapshot.InteractInput)
+            {
                 interactable.Interact(gameObject);
+            }
             
             if (_inputSystem.Snapshot.SecondInteractInput)
                 interactable.SecondaryInteract(gameObject);

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1428457093178967475}
   - component: {fileID: 2840843762452144165}
   - component: {fileID: 4593516315488208089}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -106,7 +106,7 @@ GameObject:
   - component: {fileID: 6353016415907674351}
   - component: {fileID: 7043818347100550703}
   - component: {fileID: 8566310923874921864}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -263,7 +263,7 @@ GameObject:
   - component: {fileID: 1672897987982076259}
   - component: {fileID: 7649426774060795502}
   - component: {fileID: 5676127993110198492}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BackGround
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -336,7 +336,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2477112781915878506}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: VisionOrigin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -371,7 +371,7 @@ GameObject:
   - component: {fileID: 3363237732693696784}
   - component: {fileID: 4443666907679604890}
   - component: {fileID: 626613884856698659}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: DebugUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -486,7 +486,7 @@ GameObject:
   - component: {fileID: 4995792845870030938}
   - component: {fileID: 1182299618543093279}
   - component: {fileID: 5483845911306806948}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}

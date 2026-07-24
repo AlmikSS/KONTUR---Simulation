@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace _KONTUR___Simulation._Scripts.GamePlay.Interactors
 {
+    [SelectionBase]
     public sealed class ClosetInteractor : InteractorBase
     {
         [SerializeField] private Transform _hidePoint;

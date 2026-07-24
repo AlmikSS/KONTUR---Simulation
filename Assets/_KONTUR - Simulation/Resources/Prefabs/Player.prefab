@@ -317,6 +317,7 @@ GameObject:
   - component: {fileID: 2395806571928120733}
   - component: {fileID: 1267019233636430883}
   - component: {fileID: 7923515935580642661}
+  - component: {fileID: 1271198645138065109}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -526,6 +527,19 @@ MonoBehaviour:
   _hintImage: {fileID: 4466861946402597369}
   _drawGizmos: 1
   _gizmosColor: {r: 0, g: 1, b: 0, a: 1}
+--- !u!114 &1271198645138065109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3119692521817144616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cccced94eee84c39b6f04e336eac77eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_KONTUR___Simulation._Scripts.GamePlay.Player.PlayerContext
+  _playerCamera: {fileID: 8467069291819778878}
 --- !u!1 &5569217264968234835
 GameObject:
   m_ObjectHideFlags: 0

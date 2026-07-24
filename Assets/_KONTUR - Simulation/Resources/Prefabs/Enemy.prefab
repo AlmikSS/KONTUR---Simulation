@@ -217,6 +217,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94f2df6023314263afea6b346ba2c478, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_KONTUR___Simulation._Scripts.GamePlay.NPC.NpcRoute
+  _waypoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &7043818347100550703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,7 +243,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   _visionDistance: 10
-  _visionAngle: 75
+  _visionAngle: 90
   _visionCheckInterval: 0.2
 --- !u!114 &8566310923874921864
 MonoBehaviour:

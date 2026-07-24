@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 830578433113370403}
   - component: {fileID: 4171609557701944957}
   - component: {fileID: 6466236588374210633}
+  - component: {fileID: 4481046142917076054}
   m_Layer: 7
   m_Name: StatueMob
   m_TagString: Untagged
@@ -112,6 +113,20 @@ MonoBehaviour:
   _eyeOrigin: {fileID: 4389768897396861019}
   _isDanger: 0
   _distanceToAction: 1.2
+--- !u!114 &4481046142917076054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 473268702795870454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcb622e493f142d1b54c577a68b703f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_KONTUR___Simulation._Scripts.GamePlay.Player.Heartbeat.HeartbeatTrigger
+  _maxDistance: 10
+  _minDistance: 2
 --- !u!1 &2344235366333953928
 GameObject:
   m_ObjectHideFlags: 0

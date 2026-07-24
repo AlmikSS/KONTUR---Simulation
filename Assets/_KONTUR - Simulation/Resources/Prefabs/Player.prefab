@@ -652,7 +652,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_KONTUR___Simulation._Scripts.GamePlay.Player.Heartbeat.HeartbeatController
   _maxVolume: 1
-  _fadeSpeed: 3
+  _fadeSpeed: 10
 --- !u!1 &5569217264968234835
 GameObject:
   m_ObjectHideFlags: 0

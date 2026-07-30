@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using _KONTUR___Simulation._Scripts;
 using _KONTUR___Simulation._Scripts.Input;
@@ -11,6 +12,9 @@ namespace GamePlay.Player
 {
     public class PlayerCamera : MonoBehaviour, ISpawnable, IDespawnable
     {
+
+        // serizlized fields
+
         [Title("Dependencies")]
         [SerializeField] private PlayerMovement _playerMovement;
         [SerializeField] private Transform _orientationTransform;
@@ -31,10 +35,27 @@ namespace GamePlay.Player
         [SerializeField, Slider(0, 15)] private float _movementTiltAmount;
         [SerializeField, Slider(0, 15)] private float _movementTiltSmoothness;
         [SerializeField, Slider(0, 30)] private float _movementTiltClamp;
+
+        [Title("Jump & Landing spring effects")]
+        [SerializeField] private float _jumpKickAmount = 3f;
+        [SerializeField] private float _landKickAmount = -8f;
+        [SerializeField] private float _springStiffness = 50f;
+        [SerializeField] private float _springDamping = 8f;
         
         [Title("Commands options")]
         [SerializeField] private float _lookAtSpeed;
         [SerializeField] private float _lookAtThreshold;
+
+        // public unserialized fields
+
+        public event Action OnFootstep;
+        public Vector3 LookRotation => _lookRotation;
+
+        // private fields
+
+        private float _springVelocity;
+        private float _springPosition;
+        private bool _wasGrounded;
 
         private Coroutine _lookRoutine;
         private InputSystem _inputSystem;
@@ -45,7 +66,7 @@ namespace GamePlay.Player
         private float _currentMovementTilt;
         private bool _isBlocked;
 
-        public Vector3 LookRotation => _lookRotation;
+        // Methods
 
         public void OnSpawn()
         {
@@ -74,8 +95,9 @@ namespace GamePlay.Player
             CalculateBaseMouseLook(lookInput);
             CalculateCameraBob(deltaTime);
             CalculateMovementTilt(deltaTime);
+            HandleJumpSpring(deltaTime);
             
-            var effectsRotation = _movementTiltRotation;
+            var effectsRotation = _movementTiltRotation + new Vector3(_springPosition, 0f, 0f);
             var effectsPosition = _bobPosition;
             
             _orientationTransform.rotation = Quaternion.Euler(0f, _lookRotation.y, 0f);
@@ -111,6 +133,8 @@ namespace GamePlay.Player
             var bobY = Mathf.Sin(_bobCycle) * _bobAmplitudeY;
 
             _bobPosition = new Vector3(bobX, bobY, 0);
+            
+            DetectFootstep();
         }
 
         private void CalculateMovementTilt(float deltaTime)
@@ -120,6 +144,44 @@ namespace GamePlay.Player
             targetTilt = Mathf.Clamp(targetTilt, -_movementTiltClamp, _movementTiltClamp);
             _currentMovementTilt = Mathf.Lerp(_currentMovementTilt, targetTilt, deltaTime * _movementTiltSmoothness);
             _movementTiltRotation = new Vector3(0f, 0f, _currentMovementTilt);
+        }
+
+        private void HandleJumpSpring(float deltaTime)
+        {
+            var isGrounded = _playerMovement.IsGrounded;
+            
+            if (!isGrounded && _wasGrounded)
+            {
+                _springVelocity += _jumpKickAmount;
+            }
+            
+            if (isGrounded && !_wasGrounded)
+            {
+                _springVelocity += _landKickAmount;
+            }
+            
+            var springForce = -_springStiffness * _springPosition;
+            var dampingForce = -_springDamping * _springVelocity;
+            
+            _springVelocity += (springForce + dampingForce) * deltaTime;
+            _springPosition += _springVelocity * deltaTime;
+            
+            if (Mathf.Abs(_springPosition) < 0.01f && Mathf.Abs(_springVelocity) < 0.01f)
+            {
+                _springPosition = 0f;
+                _springVelocity = 0f;
+            }
+            
+            _wasGrounded = isGrounded;
+        }
+
+        private void DetectFootstep()
+        {
+            var prevSin = Mathf.Sin(_bobCycle - Time.deltaTime * _playerMovement.HorizontalVelocity.magnitude * _bobFrequency);
+            var currSin = Mathf.Sin(_bobCycle);
+
+            if (prevSin < -0.9f && currSin >= -0.9f)
+                OnFootstep?.Invoke();
         }
 
         [Command("block_camera", "Blocks player camera rotation")]

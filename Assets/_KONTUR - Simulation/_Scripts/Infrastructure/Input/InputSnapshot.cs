@@ -12,12 +12,26 @@ namespace Core.Input
         public readonly bool CrouchInput;
         public readonly bool OpenConsole;
         public readonly bool JumpInput;
+        public readonly bool SprintInput;
         public readonly bool Slot1Input;
         public readonly bool Slot2Input;
         public readonly bool Slot3Input;
         public readonly bool Slot4Input;
 
-        public InputSnapshot(InputContext context, Vector2 moveInput, Vector2 lookInput, bool interactInput, bool openConsole, bool jumpInput, bool secondInteractInput, bool crouchInput, bool slot1Input, bool slot2Input, bool slot3Input, bool slot4Input)
+        public InputSnapshot(
+            InputContext context,
+            Vector2 moveInput,
+            Vector2 lookInput,
+            bool interactInput,
+            bool openConsole,
+            bool jumpInput,
+            bool secondInteractInput,
+            bool crouchInput,
+            bool sprintInput,
+            bool slot1Input,
+            bool slot2Input,
+            bool slot3Input,
+            bool slot4Input)
         {
             Context = context;
             MoveInput = moveInput;
@@ -27,6 +41,7 @@ namespace Core.Input
             JumpInput = jumpInput;
             SecondInteractInput = secondInteractInput;
             CrouchInput = crouchInput;
+            SprintInput = sprintInput;
             Slot1Input = slot1Input;
             Slot2Input = slot2Input;
             Slot3Input = slot3Input;

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Threading.Tasks;
 using _KONTUR___Simulation._Scripts;
 using _KONTUR___Simulation._Scripts.Input;
@@ -15,6 +15,7 @@ namespace GamePlay.Player
     {
         [SerializeField] private Transform _orientationTransform;
         [SerializeField] private float _walkSpeed;
+        [SerializeField] private float _sprintSpeed;
         [SerializeField] private float _acceleration;
         [SerializeField] private float _gravityScale; 
         [SerializeField] private float _jumpHeight;
@@ -58,13 +59,14 @@ namespace GamePlay.Player
                 return;
 
             var snapshot = _inputSystem.Snapshot;
-            
+
             var moveInput = _inputSystem.CurrentMoveInput;
             var input = new Vector3(moveInput.x, 0, moveInput.y);
             input = Vector3.ClampMagnitude(input, 1f);
 
             var worldDirection = _orientationTransform.TransformDirection(input);
-            var targetVelocity = worldDirection * _walkSpeed;
+            var targetVelocity = worldDirection * (snapshot.SprintInput ? _sprintSpeed : _walkSpeed);
+
             if (!_blocked)
                 _horizontalVelocity = Vector3.Lerp(_horizontalVelocity, targetVelocity, _acceleration * deltaTime);
 

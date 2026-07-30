@@ -4,7 +4,7 @@ namespace _KONTUR___Simulation._Scripts.GamePlay.NPC
 {
     public sealed class NpcRoute : MonoBehaviour
     {
-        private Transform[] _waypoints;
+        [SerializeField] private Transform[] _waypoints;
         private int _currentWaypointIndex = 0;
 
         public bool HasRoute => _waypoints != null && _waypoints.Length > 0;

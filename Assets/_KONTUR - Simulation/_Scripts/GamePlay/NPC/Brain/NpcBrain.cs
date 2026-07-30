@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using _KONTUR___Simulation._Scripts.GamePlay.NPC.Sensors;
+﻿using _KONTUR___Simulation._Scripts.GamePlay.NPC.Sensors;
+using _KONTUR___Simulation._Scripts.GamePlay.Player;
 using KofeyekToolkit.LifeCycle.Interfaces;
 using KofeyekToolkit.TickSystem;
 using UnityEngine;
@@ -7,6 +7,7 @@ using UnityEngine.AI;
 
 namespace _KONTUR___Simulation._Scripts.GamePlay.NPC.Brain
 {
+    [SelectionBase]
     [RequireComponent(typeof(NavMeshAgent))]
     public sealed class NpcBrain : MonoBehaviour, ITickable, ISpawnable, IDespawnable
     {
@@ -42,14 +43,11 @@ namespace _KONTUR___Simulation._Scripts.GamePlay.NPC.Brain
             ChaseState = new ChaseState(this, _stateMachine);
             BewildermentState = new BewildermentState(this, _stateMachine);
             
-            ServiceLocator.Get<TickSystem>().Register(this);
-        }
-
-        public void Initialize(Transform player)
-        {
-            _vision.Initialize(Blackboard, player);
+            _vision.Initialize(Blackboard, PlayerContext.Transform);
             _stateMachine.ChangeState(PatrolState);
             _isInit = true;
+            
+            ServiceLocator.Get<TickSystem>().Register(this);
         }
         
         public void Tick(float deltaTime)

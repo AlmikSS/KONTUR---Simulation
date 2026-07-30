@@ -78,6 +78,7 @@ namespace KofeyekToolkit.LifeCycle
                     continue;
                 }
 
+                NotifyComponents<IDespawnable>(instance, component => component.OnDespawn());
                 NotifyComponents<IDestroyable>(instance, component => component.OnDestroyed());
                 Object.Destroy(instance);
             }

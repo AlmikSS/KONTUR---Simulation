@@ -1,3 +1,4 @@
+using System.Collections;
 using _KONTUR___Simulation._Scripts;
 using _KONTUR___Simulation._Scripts.Input;
 using Core.Input;
@@ -31,12 +32,18 @@ namespace GamePlay.Player
         [SerializeField, Slider(0, 15)] private float _movementTiltSmoothness;
         [SerializeField, Slider(0, 30)] private float _movementTiltClamp;
         
+        [Title("Commands options")]
+        [SerializeField] private float _lookAtSpeed;
+        [SerializeField] private float _lookAtThreshold;
+
+        private Coroutine _lookRoutine;
         private InputSystem _inputSystem;
         private Vector3 _lookRotation;
         private Vector3 _movementTiltRotation;
         private Vector3 _bobPosition;
         private float _bobCycle;
         private float _currentMovementTilt;
+        private bool _isBlocked;
 
         public Vector3 LookRotation => _lookRotation;
 
@@ -58,11 +65,11 @@ namespace GamePlay.Player
         
         private void LateUpdate()
         {
-            if (_inputSystem == null || _inputSystem.Snapshot.Context != InputContext.GamePlay || !enabled)
+            if (_inputSystem == null || _inputSystem.Context != InputContext.GamePlay || !enabled)
                 return;
-            
+
+            var lookInput = _inputSystem.CurrentLookInput;
             var deltaTime = Time.deltaTime;
-            var lookInput = _inputSystem.Snapshot.LookInput;
             
             CalculateBaseMouseLook(lookInput);
             CalculateCameraBob(deltaTime);
@@ -72,9 +79,13 @@ namespace GamePlay.Player
             var effectsPosition = _bobPosition;
             
             _orientationTransform.rotation = Quaternion.Euler(0f, _lookRotation.y, 0f);
-            _lookRoot.localRotation = Quaternion.Euler(_lookRotation);
-            _effectsRoot.localRotation = Quaternion.Euler(effectsRotation);
-            _effectsRoot.localPosition = effectsPosition;
+            
+            if (!_isBlocked)
+            {
+                _lookRoot.localRotation = Quaternion.Euler(_lookRotation);
+                _effectsRoot.localRotation = Quaternion.Euler(effectsRotation);
+                _effectsRoot.localPosition = effectsPosition;
+            }
         }
 
         private void CalculateBaseMouseLook(Vector2 lookInput)
@@ -109,6 +120,43 @@ namespace GamePlay.Player
             targetTilt = Mathf.Clamp(targetTilt, -_movementTiltClamp, _movementTiltClamp);
             _currentMovementTilt = Mathf.Lerp(_currentMovementTilt, targetTilt, deltaTime * _movementTiltSmoothness);
             _movementTiltRotation = new Vector3(0f, 0f, _currentMovementTilt);
+        }
+
+        [Command("block_camera", "Blocks player camera rotation")]
+        public void BlockCamera(bool block)
+        {
+            _isBlocked = block;
+            Debug.Log("Block camera changed: " + _isBlocked);
+        }
+
+        [Command("look_at", "Rotate camera to euler angles")]
+        public void LookAt(Vector3 point)
+        {
+            if (_lookRoutine != null)
+                StopCoroutine(_lookRoutine);
+            
+            _lookRoutine = StartCoroutine(LookAtRoutine(point));
+            Debug.Log("Look at camera to euler angles: " + point);
+        }
+
+        private IEnumerator LookAtRoutine(Vector3 point)
+        {
+            BlockCamera(true);
+    
+            var targetRotation = Quaternion.Euler(point);
+            while (Quaternion.Angle(_lookRoot.rotation, targetRotation) > _lookAtThreshold)
+            {
+                _lookRoot.rotation = Quaternion.Slerp(
+                    _lookRoot.rotation, 
+                    targetRotation, 
+                    _lookAtSpeed * Time.deltaTime
+                );
+                yield return null;
+            }
+
+            _lookRoot.rotation = targetRotation;
+            _lookRotation = targetRotation.eulerAngles;
+            BlockCamera(false);
         }
 
         [Command("set_camera_sens", "Changes camera sensitivity")]

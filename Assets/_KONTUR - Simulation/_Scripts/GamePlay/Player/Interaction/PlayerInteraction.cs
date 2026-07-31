@@ -49,35 +49,14 @@ namespace GamePlay.Player
         {
             InteractorBase bestInteractable = null;
             float bestDistance = float.MaxValue;
-
-            Camera camera = PlayerContext.Camera;
-            Vector3 origin = _interactionOrigin.position;
-            float distanceSqr = _interactionDistance * _interactionDistance;
-
+            
             foreach (var interactable in InteractorBase.Registry)
             {
-                Vector3 toInteractable = interactable.FocusPoint.position - origin;
-                float sqrMagnitude = toInteractable.sqrMagnitude;
+                if (!IsInteractableInRange(interactable)) continue;
+                if (!IsInteractableInView(interactable)) continue;
+                if (!IsInteractableInLineOfSight(interactable)) continue;
 
-                if (sqrMagnitude > distanceSqr)
-                    continue;
-
-                Vector3 viewportPoint = camera.WorldToViewportPoint(interactable.FocusPoint.position);
-
-                if (viewportPoint.z < 0)
-                    continue;
-                if (viewportPoint.x < 0 || viewportPoint.x > 1)
-                    continue;
-                if (viewportPoint.y < 0 || viewportPoint.y > 1)
-                    continue;
-
-                float distance = Mathf.Sqrt(sqrMagnitude);
-                if (Physics.Raycast(origin, toInteractable.normalized, out var hit, distance))
-                {
-                    if (hit.collider.gameObject != interactable.gameObject)
-                        continue;
-                }
-
+                var viewportPoint = PlayerContext.Camera.WorldToViewportPoint(interactable.FocusPoint.position);
                 float dx = viewportPoint.x - 0.5f;
                 float dy = viewportPoint.y - 0.5f;
                 float distToCenter = dx * dx + dy * dy;

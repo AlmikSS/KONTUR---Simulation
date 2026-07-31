@@ -1,6 +1,4 @@
-using System;
 using _KONTUR___Simulation._Scripts;
-using GamePlay.Player;
 using KofeyekToolkit.LifeCycle.Interfaces;
 using KofeyekToolkit.TickSystem;
 using UnityEngine;
@@ -14,11 +12,9 @@ namespace GamePlay.Player.Audio
         [SerializeField] private PlayerCamera _playerCamera;
         [SerializeField] private AudioSource _audioSource;
         
-        [Header("Footstep clips")]
-        [SerializeField] private AudioClip[] _footstepClips;
-        
-        [Header("Land clips")]
-        [SerializeField] private AudioClip[] _landClips;
+        [Header("Audio paths")]
+        [SerializeField] private string _footstepFolderPath = "Audio/Player/Footsteps";
+        [SerializeField] private string _landFolderPath = "Audio/Player/Land";
         
         [Header("Volume & Pitch by speed")]
         [SerializeField] private float _walkSpeed = 3f;
@@ -32,8 +28,11 @@ namespace GamePlay.Player.Audio
         [SerializeField] private float _landVolume = 1f;
         [SerializeField] private float _landPitch = 1f;
         
+        private AudioClip[] _footstepClips;
+        private AudioClip[] _landClips;
         private int _lastFootstepIndex = -1;
         private bool _wasGrounded;
+        private bool _clipsLoaded;
 
         public TickPhase Phase => TickPhase.SimulationPhase;
 
@@ -55,8 +54,29 @@ namespace GamePlay.Player.Audio
             _wasGrounded = true;
         }
 
+        private void LoadClips()
+        {
+            if (_clipsLoaded) return;
+            
+            if (!string.IsNullOrEmpty(_footstepFolderPath))
+            {
+                _footstepClips = Resources.LoadAll<AudioClip>(_footstepFolderPath);
+                Debug.Log($"Loaded {_footstepClips.Length} footstep clips from Resources/{_footstepFolderPath}");
+            }
+            
+            if (!string.IsNullOrEmpty(_landFolderPath))
+            {
+                _landClips = Resources.LoadAll<AudioClip>(_landFolderPath);
+                Debug.Log($"Loaded {_landClips.Length} land clips from Resources/{_landFolderPath}");
+            }
+            
+            _clipsLoaded = true;
+        }
+
         public void OnSpawn()
         {
+            LoadClips();
+            
             if (_playerCamera != null)
                 _playerCamera.OnFootstep += PlayFootstep;
             

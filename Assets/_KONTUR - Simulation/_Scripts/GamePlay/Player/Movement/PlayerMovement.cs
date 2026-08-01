@@ -28,6 +28,7 @@ namespace GamePlay.Player
         private Collider[] _cols;
         private InputSystem _inputSystem;
         private Vector3 _horizontalVelocity;
+        private Vector3 _groundNormal = Vector3.up;
         private float _verticalVelocity;
         private bool _blocked;
         
@@ -65,6 +66,11 @@ namespace GamePlay.Player
             input = Vector3.ClampMagnitude(input, 1f);
 
             var worldDirection = _orientationTransform.TransformDirection(input);
+
+            // applying with normal
+            if (_cc.isGrounded)
+                worldDirection = Vector3.ProjectOnPlane(worldDirection, _groundNormal).normalized;
+
             var targetVelocity = worldDirection * (snapshot.SprintInput ? _sprintSpeed : _walkSpeed);
 
             if (!_blocked)
@@ -128,6 +134,21 @@ namespace GamePlay.Player
             _cc.enabled = true;
             foreach (var col in _cols)
                 col.enabled = true;
+        }
+
+        private void UpdateGroundNormal()
+        {
+            if (Physics.Raycast(transform.position + Vector3.up * 0.2f,
+                    Vector3.down,
+                    out var hit,
+                    1.5f))
+            {
+                _groundNormal = hit.normal;
+            }
+            else
+            {
+                _groundNormal = Vector3.up;
+            }
         }
 
         [Command("set_jump_enable", "Enable/disable jumps")]

@@ -24,6 +24,7 @@ namespace GamePlay.Player
         private EventBus _eventBus;
         private InputSystem _inputSystem;
         private IInteractable _lastInteractable;
+        private string _lastShownActionText;
 
         public TickPhase Phase => TickPhase.SimulationPhase;
 
@@ -74,16 +75,18 @@ namespace GamePlay.Player
                 {
                     _eventBus.Invoke(new InteractionHiddenEvent());
                     _lastInteractable = null;
+                    _lastShownActionText = null;
                 }
                 return;
             }
 
-            if (_lastInteractable != bestInteractable)
+            if (_lastInteractable != bestInteractable || _lastShownActionText != bestInteractable.ActionText)
             {
                 if (_lastInteractable != null)
                     _eventBus.Invoke(new InteractionHiddenEvent());
 
                 _lastInteractable = bestInteractable;
+                _lastShownActionText = bestInteractable.ActionText;
                 _eventBus.Invoke(new InteractionShownEvent(bestInteractable));
             }
 

@@ -1,21 +1,27 @@
 using System;
 using System.Collections;
-using _KONTUR___Simulation._Scripts;
-using _KONTUR___Simulation._Scripts.Input;
+using UnityEngine;
 using Core.Input;
+using TriInspector;
 using KofeyekToolkit.DevConsole;
 using KofeyekToolkit.LifeCycle.Interfaces;
-using TriInspector;
-using UnityEngine;
+using _KONTUR___Simulation._Scripts;
+using _KONTUR___Simulation._Scripts.Input;
 
 namespace GamePlay.Player
 {
+    public enum FovChangeType
+    {
+        Set,
+        SetImmediate,
+        Add,
+        Multiply
+    }
+
     public class PlayerCamera : MonoBehaviour, ISpawnable, IDespawnable
     {
-
-        // serizlized fields
-
         [Title("Dependencies")]
+        [SerializeField] private Camera _camera;
         [SerializeField] private PlayerMovement _playerMovement;
         [SerializeField] private Transform _orientationTransform;
         [SerializeField] private Transform _lookRoot;
@@ -25,6 +31,8 @@ namespace GamePlay.Player
         [SerializeField, Slider(0f, 100f)] private float _sensitivity;
         [SerializeField, Slider(0, 90f)] private float _xRotationClamp;
         [SerializeField, Slider(0, 1f)] private float _movementVelocityStopThreshold;
+        [SerializeField] private float _baseFov = 90f;
+        [SerializeField] private float _fovSmooth = 8f;
         
         [Title("Camera bob options")]
         [SerializeField, Slider(0, 0.1f)] private float _bobAmplitudeX;
@@ -46,12 +54,11 @@ namespace GamePlay.Player
         [SerializeField] private float _lookAtSpeed;
         [SerializeField] private float _lookAtThreshold;
 
-        // public unserialized fields
-
         public event Action OnFootstep;
         public Vector3 LookRotation => _lookRotation;
 
-        // private fields
+        private float _currentFov;
+        private float _targetFov;
 
         private float _springVelocity;
         private float _springPosition;
@@ -66,20 +73,28 @@ namespace GamePlay.Player
         private float _currentMovementTilt;
         private bool _isBlocked;
 
-        // Methods
+        // Накопленные смещения от сердечного ритма за кадр
+        private Vector3 _heartbeatExtraPosition;
+        private Vector3 _heartbeatExtraRotation;
 
         public void OnSpawn()
         {
             _inputSystem = ServiceLocator.Get<InputSystem>();
 
+            _currentFov = _baseFov;
+            _targetFov = _baseFov;
+            _camera.fieldOfView = _baseFov;
+
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+
+            ChangeFov(120, FovChangeType.SetImmediate);
+            ChangeFov(_baseFov, FovChangeType.Set);
         }
 
         public void OnDespawn()
         {
             _inputSystem = null;
-
             Cursor.lockState = CursorLockMode.Confined;
             Cursor.visible = true;
         }
@@ -97,8 +112,14 @@ namespace GamePlay.Player
             CalculateMovementTilt(deltaTime);
             HandleJumpSpring(deltaTime);
             
-            var effectsRotation = _movementTiltRotation + new Vector3(_springPosition, 0f, 0f);
-            var effectsPosition = _bobPosition;
+            var effectsRotation = _movementTiltRotation + new Vector3(_springPosition, 0f, 0f) + _heartbeatExtraRotation;
+            var effectsPosition = _bobPosition + _heartbeatExtraPosition;
+            
+            // Сбрасываем сердечные модификаторы после применения, контроллер запишет их заново в следующем кадре
+            _heartbeatExtraPosition = Vector3.zero;
+            _heartbeatExtraRotation = Vector3.zero;
+
+            UpdateFov(deltaTime);
             
             _orientationTransform.rotation = Quaternion.Euler(0f, _lookRotation.y, 0f);
             
@@ -108,6 +129,46 @@ namespace GamePlay.Player
                 _effectsRoot.localRotation = Quaternion.Euler(effectsRotation);
                 _effectsRoot.localPosition = effectsPosition;
             }
+        }
+
+        // Методы для управления из HeartbeatController
+        public void ApplyHeartbeatFov(float fovKick, float intensity)
+        {
+            ChangeFov(_baseFov + Mathf.Lerp(0f, fovKick, intensity), FovChangeType.SetImmediate);
+            ChangeFov(_baseFov, FovChangeType.Set);
+        }
+
+        public void ApplyHeartbeatTransforms(Vector3 positionOffset, Vector3 rotationOffset)
+        {
+            _heartbeatExtraPosition = positionOffset;
+            _heartbeatExtraRotation = rotationOffset;
+        }
+
+        public void ChangeFov(float value, FovChangeType type)
+        {
+            switch (type)
+            {
+                case FovChangeType.Set:
+                    _targetFov = value;
+                    break;
+                case FovChangeType.SetImmediate:
+                    _targetFov = value;
+                    _currentFov = value;
+                    _camera.fieldOfView = value;
+                    break;
+                case FovChangeType.Add:
+                    _targetFov += value;
+                    break;
+                case FovChangeType.Multiply:
+                    _targetFov *= value;
+                    break;
+            }
+        }
+
+        private void UpdateFov(float deltaTime)
+        {
+            _currentFov = Mathf.Lerp(_currentFov, _targetFov, deltaTime * _fovSmooth);
+            _camera.fieldOfView = _currentFov;
         }
 
         private void CalculateBaseMouseLook(Vector2 lookInput)
@@ -188,7 +249,6 @@ namespace GamePlay.Player
         public void BlockCamera(bool block)
         {
             _isBlocked = block;
-            Debug.Log("Block camera changed: " + _isBlocked);
         }
 
         [Command("look_at", "Rotate camera to euler angles")]
@@ -198,24 +258,17 @@ namespace GamePlay.Player
                 StopCoroutine(_lookRoutine);
             
             _lookRoutine = StartCoroutine(LookAtRoutine(point));
-            Debug.Log("Look at camera to euler angles: " + point);
         }
 
         private IEnumerator LookAtRoutine(Vector3 point)
         {
             BlockCamera(true);
-    
             var targetRotation = Quaternion.Euler(point);
             while (Quaternion.Angle(_lookRoot.rotation, targetRotation) > _lookAtThreshold)
             {
-                _lookRoot.rotation = Quaternion.Slerp(
-                    _lookRoot.rotation, 
-                    targetRotation, 
-                    _lookAtSpeed * Time.deltaTime
-                );
+                _lookRoot.rotation = Quaternion.Slerp(_lookRoot.rotation, targetRotation, _lookAtSpeed * Time.deltaTime);
                 yield return null;
             }
-
             _lookRoot.rotation = targetRotation;
             _lookRotation = targetRotation.eulerAngles;
             BlockCamera(false);
@@ -225,14 +278,12 @@ namespace GamePlay.Player
         private void SetSensitivity(float sensitivity)
         {
             _sensitivity = sensitivity;
-            Debug.Log("Camera sensitivity changed: " + _sensitivity);
         }
 
         [Command("set_camera_clamp", "Changes camera X clamp")]
         private void ChangeCameraClamp(float clamp)
         {
             _xRotationClamp = clamp;
-            Debug.Log("Camera X clamp changed: " + _xRotationClamp);
         }
     }
 }

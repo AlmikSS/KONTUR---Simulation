@@ -14,6 +14,7 @@ namespace _KONTUR___Simulation._Scripts.GamePlay.NPC.Brain
         [field: SerializeField] public NavMeshAgent Agent { get; private set; }
         [field: SerializeField] public NpcRoute Route { get; private set; }
         [field: SerializeField] public NpcConfig Config { get; private set; }
+        [field: SerializeField] public Animator Animator { get; private set; }
         [SerializeField] private float _updateInterval = 0.2f;
         [SerializeField] private NpcVision _vision;
         
@@ -45,6 +46,10 @@ namespace _KONTUR___Simulation._Scripts.GamePlay.NPC.Brain
             
             _vision.Initialize(Blackboard, PlayerContext.Transform);
             _stateMachine.ChangeState(PatrolState);
+            
+            if (Animator != null)
+                Animator.OnSpawn();
+            
             _isInit = true;
             
             ServiceLocator.Get<TickSystem>().Register(this);
@@ -63,16 +68,44 @@ namespace _KONTUR___Simulation._Scripts.GamePlay.NPC.Brain
                 _updateTimer = _updateInterval;
                 _lastUpdateTime = Time.time;
             }
+            
+            UpdateAnimation();
         }
 
         public void OnDespawn()
         {
+            if (Animator != null)
+                Animator.OnDespawn();
+            
             ServiceLocator.Get<TickSystem>().Unregister(this);
             Blackboard = null;
             Agent = null;
             _stateMachine = null;
             _updateTimer = 0f;
             _isInit = false;
+        }
+        
+        private void UpdateAnimation()
+        {
+            if (Animator == null || Agent == null) return;
+
+            float currentSpeed = Agent.velocity.magnitude;
+            // float targetSpeed = Agent.speed;
+
+            if (currentSpeed < 0.05f)
+            {
+                if (Animator.CurrentAnimation != "Idle")
+                    Animator.Play("Idle", 1f, 0.15f);
+            }
+            else
+            {
+                float speedMultiplier = Mathf.Clamp01(currentSpeed / Mathf.Max(Config.PatrolSpeed, 0.01f));
+
+                if (Animator.CurrentAnimation != "Walk")
+                    Animator.Play("Walk", speedMultiplier, 0.1f);
+                else
+                    Animator.SetSpeed(Animator.GetBaseSpeed("Walk") * speedMultiplier);
+            }
         }
     }
 }

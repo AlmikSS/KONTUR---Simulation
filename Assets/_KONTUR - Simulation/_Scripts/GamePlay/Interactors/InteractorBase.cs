@@ -15,9 +15,9 @@ namespace _KONTUR___Simulation._Scripts.GamePlay.Interactors
         
         public bool HasHint => _hint != null;
         public Sprite HintSprite => _hint;
-        public string ActionText => _actionText;
-        public string DescriptionText => _descriptionText;
         public Transform FocusPoint => _focusPoint != null ? _focusPoint : transform;
+        public virtual string ActionText => _actionText;
+        public virtual string DescriptionText => _descriptionText;
 
         public static HashSet<InteractorBase> Registry { get; } = new();
         

@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c5fad359c894394ae021428d918e684, type: 3}
   m_Name: TestNpcConfig
   m_EditorClassIdentifier: Assembly-CSharp::_KONTUR___Simulation._Scripts.GamePlay.NPC.NpcConfig
-  _chaseSpeed: 3.5
+  _chaseSpeed: 5
   _patrolSpeed: 2
   _waitMinMaxTime: {x: 1, y: 5}
   _bewildermentMinMaxTime: {x: 6, y: 10}
+  _trailLossTimeout: 6

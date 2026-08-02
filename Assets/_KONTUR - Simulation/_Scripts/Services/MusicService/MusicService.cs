@@ -76,6 +76,10 @@ namespace _KONTUR___Simulation._Scripts.Services
             _eventBus.Register<ShelterLeaveEvent>(OnShelterLeave);
 
             ServiceLocator.Get<TickSystem>().Register(this);
+
+            // TODO: Move into separate trigger script / make unique music loader for each scene
+            
+            PlayTrack("Ambient");
         }
 
         public void Shutdown()
@@ -84,6 +88,7 @@ namespace _KONTUR___Simulation._Scripts.Services
             _eventBus.Unregister<ChaseEndedEvent>(OnChaseEnd);
             _eventBus.Unregister<ShelterEnterEvent>(OnShelterEnter);
             _eventBus.Unregister<ShelterLeaveEvent>(OnShelterLeave);
+
             ServiceLocator.Get<TickSystem>().Unregister(this);
         }
 

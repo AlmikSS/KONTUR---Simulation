@@ -48,6 +48,8 @@ namespace _KONTUR___Simulation._Scripts.SceneManagement
             var sceneAsyncOp = SceneManager.LoadSceneAsync(sceneName);
             sceneAsyncOp.allowSceneActivation = false;
             
+            yield return new WaitForSecondsRealtime(2f);
+            
             while(!sceneAsyncOp.isDone)
                 yield return null;
             

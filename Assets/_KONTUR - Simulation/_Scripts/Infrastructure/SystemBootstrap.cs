@@ -1,5 +1,6 @@
 ﻿using _KONTUR___Simulation._Scripts.GamePlay.Progression;
 using _KONTUR___Simulation._Scripts.Input;
+using _KONTUR___Simulation._Scripts.Services;
 using KofeyekToolkit.DevConsole;
 using KofeyekToolkit.Events;
 using KofeyekToolkit.LifeCycle;
@@ -12,6 +13,7 @@ namespace _KONTUR___Simulation._Scripts
     {
         [SerializeField] private TickSystem _tickSystem;
         [SerializeField] private InputSystem _inputSystem;
+        [SerializeField] private MusicService _musicService;
         [SerializeField] private SpawnPoolsConfig _spawnPoolsConfig;
         [SerializeField] private GamePlayBootstrap _gamePlayBootstrap;
         [SerializeField] private Transform _poolsRoot;
@@ -38,6 +40,7 @@ namespace _KONTUR___Simulation._Scripts
             ServiceLocator.Register(_eventBus);
             ServiceLocator.Register(_inputSystem);
             ServiceLocator.Register(_progressionService);
+            ServiceLocator.Register(_musicService);
 
             var objects = FindObjectsByType<SceneLifecycleObject>();
             foreach (var obj in objects)
@@ -47,6 +50,7 @@ namespace _KONTUR___Simulation._Scripts
             
             _gamePlayBootstrap.Initialize();
             _tickSystem.StartTicks();
+            _musicService.Initialize();
         }
     }
 }

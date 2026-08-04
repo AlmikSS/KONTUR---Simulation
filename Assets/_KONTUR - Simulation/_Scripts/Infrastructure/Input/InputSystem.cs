@@ -15,6 +15,7 @@ namespace _KONTUR___Simulation._Scripts.Input
         private bool _crouchInput;
         private bool _openConsole;
         private bool _jumpInput;
+        private bool _sprintInput;
         private bool _slot1Input;
         private bool _slot2Input;
         private bool _slot3Input;
@@ -33,11 +34,18 @@ namespace _KONTUR___Simulation._Scripts.Input
         {
             _inputActions = new InputActions();
             
+            //general
             _inputActions.Player.Interact.performed += _ => _interactInput = true;
             _inputActions.Player.SecondInteraction.performed += _ => _secondInteractInput = true;
             _inputActions.Player.Crouch.performed += _ => _crouchInput = true;
             _inputActions.Player.OpenConsole.performed += _ => _openConsole = true;
             _inputActions.Player.Jump.performed += _ => _jumpInput = true;
+
+            //sprinting
+            _inputActions.Player.Sprint.performed += _ => _sprintInput = true;
+            _inputActions.Player.Sprint.canceled += _ => _sprintInput = false;
+
+            //slots
             _inputActions.Player.Slot1.performed += _ => _slot1Input = true;
             _inputActions.Player.Slot2.performed += _ => _slot2Input = true;
             _inputActions.Player.Slot3.performed += _ => _slot3Input = true;
@@ -79,6 +87,7 @@ namespace _KONTUR___Simulation._Scripts.Input
                 _jumpInput,
                 _secondInteractInput,
                 _crouchInput,
+                _sprintInput,
                 _slot1Input,
                 _slot2Input,
                 _slot3Input,

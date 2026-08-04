@@ -9,17 +9,34 @@ namespace _KONTUR___Simulation._Scripts.GamePlay.Interactors
         [SerializeField] private Transform _hidePoint;
         [SerializeField] private Transform _exitPoint;
         [SerializeField] private Transform _lookAtOrigin;
+        [SerializeField] private string _leaveActionText = "Leave";
+
+        private PlayerState _cachedPlayerState;
 
         public Vector3 HidePoint => _hidePoint.position;
         public Vector3 ExitPoint => _exitPoint.position;
         public Transform LookAtOrigin => _lookAtOrigin;
 
+        public override string ActionText =>
+            _cachedPlayerState != null && _cachedPlayerState.IsHiddenIn(this)
+                ? _leaveActionText
+                : base.ActionText;
+
         public override void Interact(GameObject interactor)
         {
             if (!interactor.TryGetComponent(out PlayerState playerState))
                 return;
-            
-            playerState.Hide(this);
+
+            _cachedPlayerState = playerState;
+
+            if (playerState.IsHiddenIn(this))
+            {
+                playerState.ExitHiding();
+            }
+            else if (!playerState.IsHidden)
+            {
+                playerState.Hide(this);
+            }
         }
     }
 }

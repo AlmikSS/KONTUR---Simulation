@@ -1,6 +1,6 @@
 using System.Collections;
-using System.Threading.Tasks;
 using _KONTUR___Simulation._Scripts;
+using _KONTUR___Simulation._Scripts.GamePlay.Player;
 using _KONTUR___Simulation._Scripts.Input;
 using Core.Input;
 using KofeyekToolkit.DevConsole;
@@ -37,6 +37,7 @@ namespace GamePlay.Player
         public float VerticalVelocity => _verticalVelocity;
         public bool IsGrounded => _cc.isGrounded;
         public bool JumpsEnabled => _jumpsEnabled;
+        public bool IsSprint { get; private set; }
 
         public void OnSpawn()
         {
@@ -71,7 +72,8 @@ namespace GamePlay.Player
             if (_cc.isGrounded)
                 worldDirection = Vector3.ProjectOnPlane(worldDirection, _groundNormal).normalized;
 
-            var targetVelocity = worldDirection * (snapshot.SprintInput ? _sprintSpeed : _walkSpeed);
+            IsSprint = PlayerContext.CanSprint && snapshot.SprintInput;
+            var targetVelocity = worldDirection * (IsSprint ? _sprintSpeed : _walkSpeed);
 
             if (!_blocked)
                 _horizontalVelocity = Vector3.Lerp(_horizontalVelocity, targetVelocity, _acceleration * deltaTime);

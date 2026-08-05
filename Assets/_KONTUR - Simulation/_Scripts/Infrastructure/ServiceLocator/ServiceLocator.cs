@@ -12,8 +12,15 @@ namespace _KONTUR___Simulation._Scripts
         {
             var type = typeof(T);
             
-            if (_services.ContainsKey(type))
+            if (_services.TryGetValue(type, out var existingService))
             {
+                if (existingService == null)
+                {
+                    _services[type] = service;
+                    Debug.Log($"[ServiceLocator] Replaced destroyed service {type}");
+                    return;
+                }
+
                 Debug.LogWarning("[ServiceLocator] Try to register existing service");
                 return;
             }

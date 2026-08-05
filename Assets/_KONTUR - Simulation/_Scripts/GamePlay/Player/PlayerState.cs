@@ -40,6 +40,11 @@ namespace _KONTUR___Simulation._Scripts.GamePlay.Player
             _closet = null;
         }
 
+        private void OnDestroy()
+        {
+            _hideCts?.Cancel();
+        }
+
         public bool IsHiddenIn(ClosetInteractor interactor) => _closet == interactor;
 
         public async void Hide(ClosetInteractor interactor)

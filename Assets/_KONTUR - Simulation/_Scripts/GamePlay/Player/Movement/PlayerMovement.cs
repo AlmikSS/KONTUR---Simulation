@@ -65,6 +65,11 @@ namespace GamePlay.Player
             _cols = null;
             _inputSystem = null;
         }
+
+        private void OnDestroy()
+        {
+            ServiceLocator.Get<TickSystem>()?.Unregister(this);
+        }
         
         public void Tick(float deltaTime)
         {

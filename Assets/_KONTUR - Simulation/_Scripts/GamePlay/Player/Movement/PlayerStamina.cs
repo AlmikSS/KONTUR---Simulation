@@ -36,6 +36,11 @@ namespace GamePlay.Player
         {
             ServiceLocator.Get<TickSystem>().Unregister(this);
         }
+
+        private void OnDestroy()
+        {
+            ServiceLocator.Get<TickSystem>()?.Unregister(this);
+        }
         
         public void Tick(float deltaTime)
         {

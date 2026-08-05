@@ -34,6 +34,15 @@ namespace GamePlay.UI
             _progression = null;
         }
 
+        private void OnDestroy()
+        {
+            if (_eventBus != null)
+                _eventBus.Unregister<ProgressionStateChangedEvent>(OnProgressionChanged);
+
+            _eventBus = null;
+            _progression = null;
+        }
+
         private void OnProgressionChanged(ProgressionStateChangedEvent e)
         {
             if (_condition == null)

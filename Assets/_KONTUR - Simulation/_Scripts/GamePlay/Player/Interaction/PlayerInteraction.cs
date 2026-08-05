@@ -44,15 +44,26 @@ namespace GamePlay.Player
             _inputSystem = null;
         }
 
+        private void OnDestroy()
+        {
+            ServiceLocator.Get<TickSystem>()?.Unregister(this);
+        }
+
         // methods
         
         public void Tick(float deltaTime)
         {
+            if (PlayerContext.Camera == null)
+                return;
+
             InteractorBase bestInteractable = null;
             float bestDistance = float.MaxValue;
             
             foreach (var interactable in InteractorBase.Registry)
             {
+                if (interactable is UnityEngine.Object unityObj && unityObj == null)
+                    continue;
+
                 if (!IsInteractableInRange(interactable)) continue;
                 if (!IsInteractableInView(interactable)) continue;
                 if (!IsInteractableInLineOfSight(interactable)) continue;

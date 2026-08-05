@@ -118,6 +118,15 @@ namespace GamePlay.Player
             _eventBus.Unregister<PlayerFallingStartedEvent>(OnPlayerFallingStarted);
             _eventBus.Unregister<PlayerLandedEvent>(OnPlayerLanded);
         }
+
+        private void OnDestroy()
+        {
+            if (_eventBus != null)
+            {
+                _eventBus.Unregister<PlayerFallingStartedEvent>(OnPlayerFallingStarted);
+                _eventBus.Unregister<PlayerLandedEvent>(OnPlayerLanded);
+            }
+        }
         
         private void LateUpdate()
         {

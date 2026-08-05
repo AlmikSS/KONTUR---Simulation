@@ -1,4 +1,6 @@
-﻿using _KONTUR___Simulation._Scripts.GamePlay.Progression;
+using _KONTUR___Simulation._Scripts.GamePlay.Interactors;
+using _KONTUR___Simulation._Scripts.GamePlay.Player.Heartbeat;
+using _KONTUR___Simulation._Scripts.GamePlay.Progression;
 using _KONTUR___Simulation._Scripts.Input;
 using _KONTUR___Simulation._Scripts.Services;
 using KofeyekToolkit.DevConsole;
@@ -26,6 +28,10 @@ namespace _KONTUR___Simulation._Scripts
         
         private void Awake()
         {
+            ServiceLocator.Clear();
+            InteractorBase.Registry.Clear();
+            HeartbeatTrigger.Triggers.Clear();
+
             _eventBus = new EventBus();
             _spawnService = new SpawnService();
             _progressionService = new ProgressionService(_eventBus);

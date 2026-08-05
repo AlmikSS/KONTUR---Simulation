@@ -50,7 +50,10 @@ namespace GamePlay.Enemy.Audio
             }
         }
 
-        public void OnDestroyed() { }
+        private void OnDestroy()
+        {
+            OnDespawn();
+        }
 
         private void Update()
         {

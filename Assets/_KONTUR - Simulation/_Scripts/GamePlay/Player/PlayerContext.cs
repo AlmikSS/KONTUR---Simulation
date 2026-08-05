@@ -44,7 +44,19 @@ namespace _KONTUR___Simulation._Scripts.GamePlay.Player
             Camera = null;
             _playerState = null;
             _instance = null;
-            ServiceLocator.Get<TickSystem>().Unregister(this);
+            ServiceLocator.Get<TickSystem>()?.Unregister(this);
+        }
+
+        private void OnDestroy()
+        {
+            if (Transform == transform)
+            {
+                Transform = null;
+                Camera = null;
+                _instance = null;
+            }
+
+            ServiceLocator.Get<TickSystem>()?.Unregister(this);
         }
 
         public void Tick(float deltaTime)

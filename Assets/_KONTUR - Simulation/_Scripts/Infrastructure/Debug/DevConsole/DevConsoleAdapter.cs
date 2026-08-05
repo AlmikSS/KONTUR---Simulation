@@ -35,5 +35,10 @@ namespace _KONTUR___Simulation._Scripts.DevConsole
                 _inputSystem.CloseUI();
             }
         }
+
+        private void OnDestroy()
+        {
+            ServiceLocator.Get<TickSystem>()?.Unregister(this);
+        }
     }
 }

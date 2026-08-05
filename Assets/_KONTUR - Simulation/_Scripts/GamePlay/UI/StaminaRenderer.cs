@@ -28,6 +28,12 @@ namespace GamePlay.Player.UI
             _eventBus.Unregister<OnStaminaChangedEvent>(OnStaminaChange);
         }
 
+        private void OnDestroy()
+        {
+            if (_eventBus != null)
+                _eventBus.Unregister<OnStaminaChangedEvent>(OnStaminaChange);
+        }
+
         private void OnStaminaChange(OnStaminaChangedEvent e)
         {
             ApplyStamina(e.CurrentValue, e.Component.MaxStamina);

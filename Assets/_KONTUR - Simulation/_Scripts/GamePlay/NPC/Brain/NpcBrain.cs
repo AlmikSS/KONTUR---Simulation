@@ -84,6 +84,11 @@ namespace _KONTUR___Simulation._Scripts.GamePlay.NPC.Brain
             _updateTimer = 0f;
             _isInit = false;
         }
+
+        private void OnDestroy()
+        {
+            ServiceLocator.Get<TickSystem>()?.Unregister(this);
+        }
         
         private void UpdateAnimation()
         {

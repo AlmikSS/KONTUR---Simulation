@@ -20,6 +20,11 @@ namespace _KONTUR___Simulation._Scripts.GamePlay.Player.Heartbeat
         {
             Triggers.Remove(this);
         }
+
+        private void OnDestroy()
+        {
+            Triggers.Remove(this);
+        }
         
         public float GetIntensity(Vector3 playerPosition)
         {

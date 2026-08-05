@@ -57,6 +57,12 @@ namespace _KONTUR___Simulation._Scripts.GamePlay.Player.Heartbeat
             ServiceLocator.Get<TickSystem>().Unregister(this);
         }
 
+        private void OnDestroy()
+        {
+            _audioSource.Stop();
+            ServiceLocator.Get<TickSystem>()?.Unregister(this);
+        }
+
         public void Tick(float deltaTime)
         {
             var highestIntensity = 0f;

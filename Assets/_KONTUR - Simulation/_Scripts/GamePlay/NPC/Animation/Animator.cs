@@ -85,6 +85,14 @@ namespace _KONTUR___Simulation._Scripts.GamePlay.NPC
             _isInitialized = false;
             ServiceLocator.Get<TickSystem>().Unregister(this);
         }
+
+        private void OnDestroy()
+        {
+            if (_unityAnimator != null)
+                _unityAnimator.enabled = false;
+
+            ServiceLocator.Get<TickSystem>()?.Unregister(this);
+        }
         
         public void Tick(float deltaTime)
         {

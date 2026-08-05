@@ -54,6 +54,11 @@ namespace _KONTUR___Simulation._Scripts.GamePlay.NPC
             ServiceLocator.Get<TickSystem>().Unregister(this);
         }
 
+        private void OnDestroy()
+        {
+            ServiceLocator.Get<TickSystem>()?.Unregister(this);
+        }
+
         private void CheckDistance()
         {
             if (!(Vector3.Distance(_playerTransform.position, transform.position) <= _distanceToAction))

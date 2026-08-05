@@ -6,24 +6,34 @@ namespace _KONTUR___Simulation._Scripts.SceneManagement
 {
     public sealed class SceneService : MonoBehaviour
     {
-        [SerializeField] private string _loadSceneName;
+        [Header("Scenes")]
+        [SerializeField] private string _loadingSceneName = "LoadScene";
         [SerializeField] private string _firstLevelSceneName;
 
-        private Coroutine _loadSceneRoutine;
-        
+        private Coroutine _loadingRoutine;
+
         public static SceneService Instance { get; private set; }
-        
+
+        public SceneState State { get; } = new();
+
         private void Awake()
         {
-            if (Instance == null)
+            if (Instance != null)
             {
-                Instance = this;
-                DontDestroyOnLoad(gameObject);
-                LoadScene(_firstLevelSceneName);
+                Destroy(gameObject);
                 return;
             }
-            
-            Destroy(gameObject);
+
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+
+            LoadScene(_firstLevelSceneName);
+        }
+
+        private void OnDestroy()
+        {
+            if (Instance == this)
+                Instance = null;
         }
 
         public void ReloadScene()
@@ -33,33 +43,35 @@ namespace _KONTUR___Simulation._Scripts.SceneManagement
 
         public void LoadScene(string sceneName)
         {
-            if (_loadSceneRoutine != null)
-                StopCoroutine(_loadSceneRoutine);
-            
-            _loadSceneRoutine = StartCoroutine(LoadSceneRoutine(sceneName));
+            if (_loadingRoutine != null)
+                StopCoroutine(_loadingRoutine);
+
+            _loadingRoutine = StartCoroutine(LoadRoutine(sceneName));
         }
 
-        private IEnumerator LoadSceneRoutine(string sceneName)
+        private IEnumerator LoadRoutine(string sceneName)
         {
-            var loadSceneAsyncOp = SceneManager.LoadSceneAsync(_loadSceneName);
-            while (!loadSceneAsyncOp.isDone)
-                yield return null;
+            yield return SceneManager.LoadSceneAsync(_loadingSceneName);
 
-            var sceneAsyncOp = SceneManager.LoadSceneAsync(sceneName);
-            sceneAsyncOp.allowSceneActivation = false;
-            
+            var operation = SceneManager.LoadSceneAsync(sceneName);
+            operation.allowSceneActivation = false;
+
             float timer = 0f;
-            while (!sceneAsyncOp.isDone)
+
+            while (!operation.isDone)
             {
                 timer += Time.unscaledDeltaTime;
-                
-                if (sceneAsyncOp.progress >= 0.9f && timer >= 2f)
-                {
-                    sceneAsyncOp.allowSceneActivation = true;
-                }
-                
+
+                if (operation.progress >= 0.9f && timer >= 2f)
+                    operation.allowSceneActivation = true;
+
                 yield return null;
             }
+
+            State.Clear();
+            Debug.Log("[SceneService] State cleared after scene load");
+
+            _loadingRoutine = null;
         }
     }
 }

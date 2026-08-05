@@ -36,5 +36,10 @@ namespace _KONTUR___Simulation._Scripts.GamePlay.Interactors
         {
             Registry.Remove(this);
         }
+
+        private void OnDestroy()
+        {
+            Registry.Remove(this);
+        }
     }
 }

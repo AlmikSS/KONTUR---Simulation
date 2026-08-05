@@ -83,12 +83,20 @@ namespace _KONTUR___Simulation._Scripts.Services
 
         public void Shutdown()
         {
-            _eventBus.Unregister<ChaseStartedEvent>(OnChaseStart);
-            _eventBus.Unregister<ChaseEndedEvent>(OnChaseEnd);
-            _eventBus.Unregister<ShelterEnterEvent>(OnShelterEnter);
-            _eventBus.Unregister<ShelterLeaveEvent>(OnShelterLeave);
+            if (_eventBus != null)
+            {
+                _eventBus.Unregister<ChaseStartedEvent>(OnChaseStart);
+                _eventBus.Unregister<ChaseEndedEvent>(OnChaseEnd);
+                _eventBus.Unregister<ShelterEnterEvent>(OnShelterEnter);
+                _eventBus.Unregister<ShelterLeaveEvent>(OnShelterLeave);
+            }
 
-            ServiceLocator.Get<TickSystem>().Unregister(this);
+            ServiceLocator.Get<TickSystem>()?.Unregister(this);
+        }
+
+        private void OnDestroy()
+        {
+            Shutdown();
         }
 
         public void Tick(float deltaTime)

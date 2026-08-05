@@ -95,6 +95,14 @@ namespace GamePlay.Player.Audio
         {
         }
 
+        private void OnDestroy()
+        {
+            if (_playerCamera != null)
+                _playerCamera.OnFootstep -= PlayFootstep;
+
+            ServiceLocator.Get<TickSystem>()?.Unregister(this);
+        }
+
         public void Tick(float deltaTime)
         {
             if (_playerMovement == null)

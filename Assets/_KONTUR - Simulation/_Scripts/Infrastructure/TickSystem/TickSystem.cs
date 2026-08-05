@@ -91,6 +91,8 @@ namespace KofeyekToolkit.TickSystem
 
         private void Tick(float deltaTime)
         {
+            PruneDestroyedTickables();
+
             foreach (var tickables in _tickables.Values)
             {
                 foreach (var tickable in tickables)
@@ -108,6 +110,20 @@ namespace KofeyekToolkit.TickSystem
             
             ReleaseRegisterQueue();
             ReleaseUnregisterQueue();
+        }
+
+        private void PruneDestroyedTickables()
+        {
+            foreach (var phase in _tickables.Keys)
+            {
+                var tickables = _tickables[phase];
+
+                for (int i = tickables.Count - 1; i >= 0; i--)
+                {
+                    if (tickables[i] is UnityEngine.Object unityObj && unityObj == null)
+                        tickables.RemoveAt(i);
+                }
+            }
         }
         
         private void ReleaseRegisterQueue()

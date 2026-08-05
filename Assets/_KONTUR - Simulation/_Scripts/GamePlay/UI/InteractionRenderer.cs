@@ -64,6 +64,17 @@ namespace GamePlay.Player.UI
             ServiceLocator.Get<TickSystem>().Unregister(this);
         }
 
+        private void OnDestroy()
+        {
+            if (_eventBus != null)
+            {
+                _eventBus.Unregister<InteractionShownEvent>(OnShown);
+                _eventBus.Unregister<InteractionHiddenEvent>(OnHidden);
+            }
+
+            ServiceLocator.Get<TickSystem>()?.Unregister(this);
+        }
+
         public void Tick(float deltaTime)
         {
             if (_camera == null)

@@ -54,6 +54,50 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+--- !u!1 &2788527474199947489
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4723446783884879165}
+  - component: {fileID: 4926401637792001466}
+  m_Layer: 0
+  m_Name: PlayerDeathHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4723446783884879165
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2788527474199947489}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2873800211351955363}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4926401637792001466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2788527474199947489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05eb27964346f48418789eeca599b951, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_KONTUR___Simulation._Scripts.Services.PlayerDeathHandler
 --- !u!1 &3102656939802002195
 GameObject:
   m_ObjectHideFlags: 0
@@ -119,6 +163,9 @@ Transform:
   - {fileID: 8583735689894686999}
   - {fileID: 8327720308659956898}
   - {fileID: 1265587673018955169}
+  - {fileID: 388787028680022335}
+  - {fileID: 4742501757763922579}
+  - {fileID: 4723446783884879165}
   m_Father: {fileID: 7937737864451624274}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4093461604977173072
@@ -154,6 +201,173 @@ Transform:
   - {fileID: 3511988876916661507}
   m_Father: {fileID: 7937737864451624274}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4099398880911753731
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 388787028680022335}
+  - component: {fileID: 461882752373396542}
+  - component: {fileID: 3111094178528935575}
+  m_Layer: 0
+  m_Name: MusicService
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &388787028680022335
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4099398880911753731}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2873800211351955363}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &461882752373396542
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4099398880911753731}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &3111094178528935575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4099398880911753731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8a7d54c87f339d49bb876faea15dc9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_KONTUR___Simulation._Scripts.Services.MusicService
+  _tracks:
+  - Key: Chase
+    Clip: {fileID: 8300000, guid: 0df9c98297ab2ce4c86857ce931b8c86, type: 3}
+    Priority: 2
+    Loop: 1
+    MaxVolume: 1
+    DuckedVolume: 0
+    FadeInDuration: 1.5
+    FadeOutDuration: 2
+  - Key: Hiding
+    Clip: {fileID: 8300000, guid: 9089571561ca13d429a216c389d4868e, type: 3}
+    Priority: 3
+    Loop: 1
+    MaxVolume: 1
+    DuckedVolume: 0
+    FadeInDuration: 1
+    FadeOutDuration: 3
+  - Key: Ambient
+    Clip: {fileID: 8300000, guid: 81a2e3c7a9c7df1489f0d337032c7678, type: 3}
+    Priority: 0
+    Loop: 1
+    MaxVolume: 1
+    DuckedVolume: 0
+    FadeInDuration: 5
+    FadeOutDuration: 1
 --- !u!1 &5394534039845373797
 GameObject:
   m_ObjectHideFlags: 0
@@ -267,6 +481,52 @@ Transform:
   - {fileID: 632950965984061749}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5752810873721508770
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4742501757763922579}
+  - component: {fileID: 3836603796451311125}
+  m_Layer: 0
+  m_Name: FallDamageHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4742501757763922579
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5752810873721508770}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2873800211351955363}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3836603796451311125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5752810873721508770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c6486ce5e8a9914b8019675d080437a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_KONTUR___Simulation._Scripts.Services.FallDamageHandler
+  _fatalFallHeight: 4
+  _cooldown: 0.5
 --- !u!1 &6158483101180429327
 GameObject:
   m_ObjectHideFlags: 0
@@ -313,6 +573,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::_KONTUR___Simulation._Scripts.SystemBootstrap
   _tickSystem: {fileID: 1393241320736500644}
   _inputSystem: {fileID: 6336121326254115202}
+  _musicService: {fileID: 3111094178528935575}
+  _fallDamageHandler: {fileID: 3836603796451311125}
+  _playerDeathHandler: {fileID: 4926401637792001466}
   _spawnPoolsConfig: {fileID: 11400000, guid: 0b5febf8e5f59fc4080ed2dba8e87c14, type: 2}
   _gamePlayBootstrap: {fileID: 5831555704310120701}
   _poolsRoot: {fileID: 632950965984061749}

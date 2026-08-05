@@ -1,4 +1,5 @@
 ﻿using _KONTUR___Simulation._Scripts.GamePlay.NPC.Brain;
+using _KONTUR___Simulation._Scripts.GamePlay.Player;
 using KofeyekToolkit.LifeCycle.Interfaces;
 using KofeyekToolkit.TickSystem;
 using UnityEngine;
@@ -54,6 +55,8 @@ namespace _KONTUR___Simulation._Scripts.GamePlay.NPC.Sensors
             _visionTimer -= deltaTime;
             if (_visionTimer <= 0)
             {
+                _blackboard.SetPlayerHidden(PlayerContext.IsHidden);
+
                 var isPlayerInVision = IsPlayerInVision();
                 _blackboard.SetPlayerPosition(_playerTransform.position, isPlayerInVision);
                 _visionTimer = _visionCheckInterval;
@@ -62,6 +65,9 @@ namespace _KONTUR___Simulation._Scripts.GamePlay.NPC.Sensors
 
         private bool IsPlayerInVision()
         {
+            if (_blackboard.IsPlayerHidden)
+                return false;
+
             var distanceToPlayer = _playerTransform.position - _visionOrigin.position;
             var sqrDistanceToPlayer = distanceToPlayer.sqrMagnitude;
             

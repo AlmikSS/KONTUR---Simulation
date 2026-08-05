@@ -1,6 +1,7 @@
 ﻿using System;
 using _KONTUR___Simulation._Scripts;
 using _KONTUR___Simulation._Scripts.GamePlay.Player;
+using KofeyekToolkit.Events;
 using KofeyekToolkit.LifeCycle.Interfaces;
 using KofeyekToolkit.TickSystem;
 using UnityEngine;
@@ -11,24 +12,23 @@ namespace GamePlay.Player
     {
         [SerializeField] private float _regenCooldown;
         [SerializeField] private float _maxStamina;
-        [SerializeField] private float _criticalLevel;
         [SerializeField] private float _staminaDrainRate;
         [SerializeField] private float _staminaRegenRate;
 
         private float _currentStamina;
         private float _lastSprintTime;
         private bool _sprintInPreviousTick;
-        private bool _isCritical;
+        private EventBus _eventBus;
 
         public TickPhase Phase => TickPhase.SimulationPhase;
         public bool CanSprint => _currentStamina > 0;
+        public float MaxStamina => _maxStamina;
         public float CurrentStamina => _currentStamina;
-        public event Action<float> OnStaminaChanged; 
-        public event Action OnStaminaCriticalLevel; 
         
         public void OnSpawn()
         {
             ServiceLocator.Get<TickSystem>().Register(this);
+            _eventBus = ServiceLocator.Get<EventBus>();
             _currentStamina = _maxStamina;
         }
         
@@ -42,13 +42,7 @@ namespace GamePlay.Player
             if (PlayerContext.IsSprint)
             {
                 _currentStamina = Mathf.Clamp(_currentStamina - _staminaDrainRate, 0f, _maxStamina);
-                OnStaminaChanged?.Invoke(_currentStamina);
-
-                if (_currentStamina <= _criticalLevel && !_isCritical)
-                {
-                    _isCritical = true;
-                    OnStaminaCriticalLevel?.Invoke();
-                }
+                _eventBus.Invoke(new OnStaminaChangedEvent(_currentStamina, this));
             }
             else
             {
@@ -58,10 +52,7 @@ namespace GamePlay.Player
                 if (Time.time - _lastSprintTime >= _regenCooldown)
                 {
                     _currentStamina = Mathf.Clamp(_currentStamina + _staminaRegenRate, 0f, _maxStamina);
-                    OnStaminaChanged?.Invoke(_currentStamina);
-                    
-                    if (_currentStamina >= _criticalLevel && _isCritical)
-                        _isCritical = false;
+                    _eventBus.Invoke(new OnStaminaChangedEvent(_currentStamina, this));
                 }
             }
             

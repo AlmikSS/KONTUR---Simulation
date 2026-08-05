@@ -15,13 +15,17 @@ namespace _KONTUR___Simulation._Scripts.GamePlay.Player
         [SerializeField] private PlayerMovement _playerMovement;
         [SerializeField] private PlayerCamera _playerCamera;
 
+        [Header("Hiding Detection")]
+        [SerializeField] private LayerMask _hidingSpotLayer;
+        [SerializeField] private float _checkDistance = 2f;
+
         private EventBus _eventBus;
         private InputSystem _inputSystem;
         private ClosetInteractor _closet;
         private CancellationTokenSource _hideCts;
 
         public TickPhase Phase => TickPhase.SimulationPhase;
-        public bool IsHidden => _closet != null;
+        public bool IsHidden => _closet != null || CheckIsUnderHidingRoof() == true;
 
         public void OnSpawn()
         {
@@ -66,15 +70,31 @@ namespace _KONTUR___Simulation._Scripts.GamePlay.Player
             _closet = interactor;
         }
 
+        public bool CheckIsUnderHidingRoof()
+        {
+            var rayOrigin = transform.position + Vector3.up * 0.1f;
+            
+            if (Physics.Raycast(rayOrigin, Vector3.up, out var hit, _checkDistance, _hidingSpotLayer))
+            {
+                return true;
+            }
+            
+            return false;
+        }
+
         public void ExitHiding()
         {
             if (!IsHidden) return;
 
             _eventBus.Invoke(new ShelterLeaveEvent());
 
-            _playerMovement.MoveTo(_closet.ExitPoint);
+            if (_closet != null)
+            {
+                _playerMovement.MoveTo(_closet.ExitPoint);
+                _closet = null;
+            }
+            
             _playerMovement.BlockMovement(false);
-            _closet = null;
         }
     }
 }

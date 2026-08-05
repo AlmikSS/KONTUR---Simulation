@@ -14,6 +14,8 @@ namespace _KONTUR___Simulation._Scripts
         [SerializeField] private TickSystem _tickSystem;
         [SerializeField] private InputSystem _inputSystem;
         [SerializeField] private MusicService _musicService;
+        [SerializeField] private FallDamageHandler _fallDamageHandler;
+        [SerializeField] private PlayerDeathHandler _playerDeathHandler;
         [SerializeField] private SpawnPoolsConfig _spawnPoolsConfig;
         [SerializeField] private GamePlayBootstrap _gamePlayBootstrap;
         [SerializeField] private Transform _poolsRoot;
@@ -41,6 +43,8 @@ namespace _KONTUR___Simulation._Scripts
             ServiceLocator.Register(_inputSystem);
             ServiceLocator.Register(_progressionService);
             ServiceLocator.Register(_musicService);
+            ServiceLocator.Register(_fallDamageHandler);
+            ServiceLocator.Register(_playerDeathHandler);
 
             var objects = FindObjectsByType<SceneLifecycleObject>();
             foreach (var obj in objects)
@@ -50,7 +54,10 @@ namespace _KONTUR___Simulation._Scripts
             
             _gamePlayBootstrap.Initialize();
             _tickSystem.StartTicks();
+
             _musicService.Initialize();
+            _fallDamageHandler.Initialize();
+            _playerDeathHandler.Initialize();
         }
     }
 }

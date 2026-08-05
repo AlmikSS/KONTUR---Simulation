@@ -50,17 +50,25 @@ namespace KofeyekToolkit.Events
             if (!_eventHandlers.TryGetValue(type, out var eventHandler))
                 return;
             
-            var snapshot = eventHandler.ToArray();
-            foreach (var handler in snapshot)
+            if (eventHandler.Count == 1)
             {
-                try
+                var handler = eventHandler[0] as Action<T>;
+                handler?.Invoke(gameEvent);
+            }
+            else
+            {
+                var snapshot = new List<Delegate>(eventHandler);
+                foreach (var handler in snapshot)
                 {
-                    var action = handler as Action<T>;
-                    action?.Invoke(gameEvent);
-                }
-                catch (Exception ex)
-                {
-                    Debug.LogError($"[EventBus] Failed to invoke handler. Error: { ex.Message }");
+                    try
+                    {
+                        var action = handler as Action<T>;
+                        action?.Invoke(gameEvent);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.LogError($"[EventBus] Failed to invoke handler. Error: { ex.Message }");
+                    }
                 }
             }
         }

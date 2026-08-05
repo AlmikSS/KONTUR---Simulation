@@ -4,6 +4,7 @@ using _KONTUR___Simulation._Scripts.GamePlay.Player;
 using _KONTUR___Simulation._Scripts.Input;
 using Core.Input;
 using KofeyekToolkit.DevConsole;
+using KofeyekToolkit.Events;
 using KofeyekToolkit.LifeCycle.Interfaces;
 using KofeyekToolkit.TickSystem;
 using UnityEngine;
@@ -17,19 +18,27 @@ namespace GamePlay.Player
         [SerializeField] private float _walkSpeed;
         [SerializeField] private float _sprintSpeed;
         [SerializeField] private float _acceleration;
-        [SerializeField] private float _gravityScale; 
-        [SerializeField] private float _jumpHeight;
         [SerializeField] private bool _jumpsEnabled;
         [SerializeField] private float _moveToSpeed;
         [SerializeField] private float _moveToThreshold;
+        
+        [Header("Gravity & Jump Feel")]
+        [SerializeField] private float _minFallHeightToReport = 0.5f;
+        [SerializeField] private float _gravityScale = -30f;
+        [SerializeField] private float _fallGravityMultiplier;
+        [SerializeField] private float _jumpHeight = 2f;
+        [SerializeField] private float _hangTimeThreshold = 2f;
         
         private Coroutine _moveToRoutine;
         private CharacterController _cc;
         private Collider[] _cols;
         private InputSystem _inputSystem;
+        private EventBus _eventBus;
         private Vector3 _horizontalVelocity;
         private Vector3 _groundNormal = Vector3.up;
         private float _verticalVelocity;
+        private float _highestYDuringFall;
+        private bool _wasGrounded = true;
         private bool _blocked;
         
         public TickPhase Phase => TickPhase.SimulationPhase;
@@ -44,6 +53,8 @@ namespace GamePlay.Player
             _cc = GetComponent<CharacterController>();
             _cols = GetComponentsInChildren<Collider>();
             _inputSystem = ServiceLocator.Get<InputSystem>();
+            _eventBus = ServiceLocator.Get<EventBus>();
+
             ServiceLocator.Get<TickSystem>().Register(this);
         }
 
@@ -61,27 +72,62 @@ namespace GamePlay.Player
                 return;
 
             var snapshot = _inputSystem.Snapshot;
-
             var moveInput = _inputSystem.CurrentMoveInput;
             var input = new Vector3(moveInput.x, 0, moveInput.y);
             input = Vector3.ClampMagnitude(input, 1f);
 
             var worldDirection = _orientationTransform.TransformDirection(input);
 
-            // applying with normal
             if (_cc.isGrounded)
                 worldDirection = Vector3.ProjectOnPlane(worldDirection, _groundNormal).normalized;
 
-            IsSprint = PlayerContext.CanSprint && snapshot.SprintInput;
+            bool isMoving = input.magnitude > 0.01f || _horizontalVelocity.magnitude > 0.1f;
+            
+            IsSprint = PlayerContext.CanSprint && snapshot.SprintInput && isMoving;
+
             var targetVelocity = worldDirection * (IsSprint ? _sprintSpeed : _walkSpeed);
 
             if (!_blocked)
                 _horizontalVelocity = Vector3.Lerp(_horizontalVelocity, targetVelocity, _acceleration * deltaTime);
 
+            bool isGrounded = _cc.isGrounded;
+
+            if (!isGrounded && _wasGrounded)
+            {
+                _highestYDuringFall = transform.position.y;
+                _eventBus.Invoke(new PlayerFallingStartedEvent(_highestYDuringFall));
+            }
+            else if (!isGrounded)
+            {
+                if (transform.position.y > _highestYDuringFall)
+                {
+                    _highestYDuringFall = transform.position.y;
+                }
+            }
+            else if (isGrounded && !_wasGrounded)
+            {
+                float fallHeight = _highestYDuringFall - transform.position.y;
+
+                if (fallHeight >= _minFallHeightToReport)
+                {
+                    _eventBus.Invoke(new PlayerLandedEvent(transform.position.y, fallHeight));
+                }
+            }
+
+            _wasGrounded = isGrounded;
+
             if (_cc.isGrounded)
-                _verticalVelocity = -2f;
+                _verticalVelocity = -4f;
             else
-                _verticalVelocity += _gravityScale * deltaTime;
+            {
+                float currentGravity = _gravityScale;
+                if (_verticalVelocity > 0 && _verticalVelocity < 2f)
+                    currentGravity *= 0.5f;
+                else if (_verticalVelocity < 0)
+                    currentGravity *= _fallGravityMultiplier;
+
+                _verticalVelocity += currentGravity * deltaTime;
+            }
             
             if (snapshot.JumpInput)
                 Jump();
@@ -96,8 +142,7 @@ namespace GamePlay.Player
             if (!_cc.isGrounded || !_jumpsEnabled || _blocked)
                 return;
 
-            _verticalVelocity = 0f;
-            _verticalVelocity += _jumpHeight;
+            _verticalVelocity = Mathf.Sqrt(_jumpHeight * -2f * _gravityScale);
         }
 
         [Command("block_movement", "Blocks player movement")]

@@ -30,7 +30,7 @@ namespace _KONTUR___Simulation._Scripts.GamePlay.NPC
 
         public void Update(float deltaTime)
         {
-            if (_npcBrain.Blackboard.IsPlayerInVision)
+            if (_npcBrain.Blackboard.IsPlayerInVision && !_npcBrain.Blackboard.IsPlayerHidden)
             {
                 _timeSinceLastSeen = 0f;
             }

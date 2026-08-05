@@ -42,18 +42,24 @@ namespace _KONTUR___Simulation._Scripts.SceneManagement
         private IEnumerator LoadSceneRoutine(string sceneName)
         {
             var loadSceneAsyncOp = SceneManager.LoadSceneAsync(_loadSceneName);
-            while(!loadSceneAsyncOp.isDone)
+            while (!loadSceneAsyncOp.isDone)
                 yield return null;
-            
+
             var sceneAsyncOp = SceneManager.LoadSceneAsync(sceneName);
             sceneAsyncOp.allowSceneActivation = false;
             
-            yield return new WaitForSecondsRealtime(2f);
-            
-            while(!sceneAsyncOp.isDone)
+            float timer = 0f;
+            while (!sceneAsyncOp.isDone)
+            {
+                timer += Time.unscaledDeltaTime;
+                
+                if (sceneAsyncOp.progress >= 0.9f && timer >= 2f)
+                {
+                    sceneAsyncOp.allowSceneActivation = true;
+                }
+                
                 yield return null;
-            
-            sceneAsyncOp.allowSceneActivation = true;
+            }
         }
     }
 }

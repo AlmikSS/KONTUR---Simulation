@@ -7,6 +7,7 @@ using KofeyekToolkit.DevConsole;
 using KofeyekToolkit.LifeCycle.Interfaces;
 using _KONTUR___Simulation._Scripts;
 using _KONTUR___Simulation._Scripts.Input;
+using KofeyekToolkit.Events;
 
 namespace GamePlay.Player
 {
@@ -49,6 +50,13 @@ namespace GamePlay.Player
         [SerializeField] private float _landKickAmount = -8f;
         [SerializeField] private float _springStiffness = 50f;
         [SerializeField] private float _springDamping = 8f;
+
+        [Header("Landing Z-Tilt Spring")]
+        [SerializeField] private float _landTiltMultiplier = 5f;
+        [SerializeField] private float _landImpactMultiplier = 5f;
+        [SerializeField] private float _fallHeightImpactMultiplier = 2f;
+        [SerializeField] private float _zVelocityImpulseMultiplier = 5f;
+        
         
         [Title("Commands options")]
         [SerializeField] private float _lookAtSpeed;
@@ -60,12 +68,16 @@ namespace GamePlay.Player
         private float _currentFov;
         private float _targetFov;
 
+        // spring
+        private float _springZVelocity;
+        private float _springZPosition;
         private float _springVelocity;
         private float _springPosition;
         private bool _wasGrounded;
 
         private Coroutine _lookRoutine;
         private InputSystem _inputSystem;
+        private EventBus _eventBus;
         private Vector3 _lookRotation;
         private Vector3 _movementTiltRotation;
         private Vector3 _bobPosition;
@@ -73,13 +85,13 @@ namespace GamePlay.Player
         private float _currentMovementTilt;
         private bool _isBlocked;
 
-        // Накопленные смещения от сердечного ритма за кадр
         private Vector3 _heartbeatExtraPosition;
         private Vector3 _heartbeatExtraRotation;
 
         public void OnSpawn()
         {
             _inputSystem = ServiceLocator.Get<InputSystem>();
+            _eventBus = ServiceLocator.Get<EventBus>();
 
             _currentFov = _baseFov;
             _targetFov = _baseFov;
@@ -88,6 +100,9 @@ namespace GamePlay.Player
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
 
+            _eventBus.Register<PlayerFallingStartedEvent>(OnPlayerFallingStarted);
+            _eventBus.Register<PlayerLandedEvent>(OnPlayerLanded);
+
             ChangeFov(120, FovChangeType.SetImmediate);
             ChangeFov(_baseFov, FovChangeType.Set);
         }
@@ -95,8 +110,13 @@ namespace GamePlay.Player
         public void OnDespawn()
         {
             _inputSystem = null;
+            _eventBus = null;
+
             Cursor.lockState = CursorLockMode.Confined;
             Cursor.visible = true;
+
+            _eventBus.Unregister<PlayerFallingStartedEvent>(OnPlayerFallingStarted);
+            _eventBus.Unregister<PlayerLandedEvent>(OnPlayerLanded);
         }
         
         private void LateUpdate()
@@ -112,10 +132,9 @@ namespace GamePlay.Player
             CalculateMovementTilt(deltaTime);
             HandleJumpSpring(deltaTime);
             
-            var effectsRotation = _movementTiltRotation + new Vector3(_springPosition, 0f, 0f) + _heartbeatExtraRotation;
+            var effectsRotation = _movementTiltRotation + new Vector3(_springPosition, 0f, _springZPosition) + _heartbeatExtraRotation;
             var effectsPosition = _bobPosition + _heartbeatExtraPosition;
             
-            // Сбрасываем сердечные модификаторы после применения, контроллер запишет их заново в следующем кадре
             _heartbeatExtraPosition = Vector3.zero;
             _heartbeatExtraRotation = Vector3.zero;
 
@@ -130,8 +149,7 @@ namespace GamePlay.Player
                 _effectsRoot.localPosition = effectsPosition;
             }
         }
-
-        // Методы для управления из HeartbeatController
+        
         public void ApplyHeartbeatFov(float fovKick, float intensity)
         {
             ChangeFov(_baseFov + Mathf.Lerp(0f, fovKick, intensity), FovChangeType.SetImmediate);
@@ -227,13 +245,42 @@ namespace GamePlay.Player
             _springVelocity += (springForce + dampingForce) * deltaTime;
             _springPosition += _springVelocity * deltaTime;
             
+            var springZForce = -_springStiffness * _springZPosition;
+            var dampingZForce = -_springDamping * _springZVelocity;
+            
+            _springZVelocity += (springZForce + dampingZForce) * deltaTime;
+            _springZPosition += _springZVelocity * deltaTime;
+
             if (Mathf.Abs(_springPosition) < 0.01f && Mathf.Abs(_springVelocity) < 0.01f)
             {
                 _springPosition = 0f;
                 _springVelocity = 0f;
             }
+
+            if (Mathf.Abs(_springZPosition) < 0.01f && Mathf.Abs(_springZVelocity) < 0.01f)
+            {
+                _springZPosition = 0f;
+                _springZVelocity = 0f;
+            }
             
             _wasGrounded = isGrounded;
+        }
+
+        private void OnPlayerFallingStarted(PlayerFallingStartedEvent ev)
+        {
+            _springVelocity += _jumpKickAmount;
+        }
+
+        private void OnPlayerLanded(PlayerLandedEvent ev)
+        {
+            var landKick = _landKickAmount - (ev.Distance * _landImpactMultiplier);
+            _springVelocity += landKick;
+
+            float tiltDirection = UnityEngine.Random.value > 0.5f ? 1f : -1f;
+            float targetTiltAngle = ev.Distance * _landTiltMultiplier * tiltDirection;
+
+            _springZPosition += targetTiltAngle;
+            _springZVelocity += targetTiltAngle * _zVelocityImpulseMultiplier; 
         }
 
         private void DetectFootstep()

@@ -15,7 +15,7 @@ MonoBehaviour:
   active: 1
   intensity:
     m_OverrideState: 1
-    m_Value: 0.39
+    m_Value: 0.186
 --- !u!114 &-8033443445216315484
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -81,7 +81,7 @@ MonoBehaviour:
   active: 1
   intensity:
     m_OverrideState: 1
-    m_Value: 18.3
+    m_Value: 49.8
   tintColor:
     m_OverrideState: 1
     m_Value: {r: 1, g: 1, b: 1, a: 1}
@@ -148,7 +148,7 @@ MonoBehaviour:
   active: 1
   intensity:
     m_OverrideState: 1
-    m_Value: -0.48
+    m_Value: -0.31
   xMultiplier:
     m_OverrideState: 0
     m_Value: 1
@@ -198,13 +198,13 @@ MonoBehaviour:
     m_Value: 1
   threshold:
     m_OverrideState: 1
-    m_Value: 0.94
+    m_Value: 1.07
   intensity:
     m_OverrideState: 1
-    m_Value: 7.1
+    m_Value: 1.74
   scatter:
     m_OverrideState: 1
-    m_Value: 0.16
+    m_Value: 0.8
   clamp:
     m_OverrideState: 0
     m_Value: 65472

@@ -9,7 +9,6 @@ public sealed class SceneState
     public void Clear()
     {
         Death = null;
-        CurrentLevel = 1;
     }
 }
 

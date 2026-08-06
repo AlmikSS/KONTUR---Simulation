@@ -115453,6 +115453,116 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1569014702}
   m_Mesh: {fileID: 160801022434109696, guid: d78db2ef5f92bf547a53a5315c367eb4, type: 3}
+--- !u!1 &1570432459
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1570432464}
+  - component: {fileID: 1570432463}
+  - component: {fileID: 1570432462}
+  - component: {fileID: 1570432461}
+  - component: {fileID: 1570432460}
+  m_Layer: 0
+  m_Name: LastCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1570432460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1570432459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c3b329f767e4d68a7ff7e4e05235ed2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_KONTUR___Simulation._Scripts.GamePlay.LevelTransitionTrigger
+  _config: {fileID: 11400000, guid: 3c5605b235e63664696dbb1410804d4b, type: 2}
+  _nextLevel: 3
+--- !u!114 &1570432461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1570432459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d5bb4dde8b240a1a3f922e5604df4fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_KONTUR___Simulation._Scripts.GamePlay.Progression.ProgressionReactor
+  _condition: {fileID: 11400000, guid: fa706a425ffdb2a4fb389c6c05b6dc08, type: 2}
+  _onConditionCompleted:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1570432463}
+        m_TargetAssemblyTypeName: UnityEngine.BoxCollider, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+--- !u!114 &1570432462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1570432459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82b122e8ba804ba59cd7e625294e9eb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KofeyekToolkit.LifeCycle.SceneLifecycleObject
+--- !u!65 &1570432463
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1570432459}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!4 &1570432464
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1570432459}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5.1, y: 5.522, z: -4.96}
+  m_LocalScale: {x: 3.3308, y: 3.726384, z: 1.9714165}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1570967597
 GameObject:
   m_ObjectHideFlags: 0
@@ -167160,3 +167270,4 @@ SceneRoots:
   - {fileID: 1832830913}
   - {fileID: 1797599666}
   - {fileID: 15823266}
+  - {fileID: 1570432464}

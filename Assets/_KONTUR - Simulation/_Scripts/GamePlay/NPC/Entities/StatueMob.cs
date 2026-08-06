@@ -11,6 +11,9 @@ namespace _KONTUR___Simulation._Scripts.GamePlay.NPC
     [RequireComponent(typeof(NavMeshAgent))]
     public sealed class StatueMob : MonoBehaviour, ISpawnable, ITickable, IDespawnable
     {
+        [field: SerializeField] public Animator Animator { get; private set; }
+        [field: SerializeField] public NpcConfig Config { get; private set; }
+
         [SerializeField] private LayerMask _obstacleLayer;
         [SerializeField] private Transform _eyeOrigin;
         [SerializeField] private bool _isDanger;
@@ -27,7 +30,10 @@ namespace _KONTUR___Simulation._Scripts.GamePlay.NPC
             _agent = GetComponent<NavMeshAgent>();
             _playerTransform = PlayerContext.Transform;
             _playerCamera = PlayerContext.Camera;
+
             ServiceLocator.Get<TickSystem>().Register(this);
+
+            Animator.Play("Walk", 0f, 0f);
         }
 
         public void Tick(float deltaTime)
@@ -44,6 +50,7 @@ namespace _KONTUR___Simulation._Scripts.GamePlay.NPC
             }
 
             CheckDistance();
+            UpdateAnimation();
         }
 
         public void OnDespawn()
@@ -84,6 +91,14 @@ namespace _KONTUR___Simulation._Scripts.GamePlay.NPC
                 return false;
 
             return true;
+        }
+
+        private void UpdateAnimation()
+        {
+            float speed = Mathf.Clamp01(
+                _agent.velocity.magnitude / Mathf.Max(Config.PatrolSpeed, 0.01f));
+
+            Animator.Play("Walk", speed);
         }
     }
 }

@@ -25194,6 +25194,38 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3111094178528935575, guid: a302624b4b48bce44a7372f8d6f3aafd, type: 3}
+      propertyPath: _tracks.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3111094178528935575, guid: a302624b4b48bce44a7372f8d6f3aafd, type: 3}
+      propertyPath: _tracks.Array.data[1].Key
+      value: Terror
+      objectReference: {fileID: 0}
+    - target: {fileID: 3111094178528935575, guid: a302624b4b48bce44a7372f8d6f3aafd, type: 3}
+      propertyPath: _tracks.Array.data[0].Clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 7c403f9674733954894c59209ce9d06a, type: 3}
+    - target: {fileID: 3111094178528935575, guid: a302624b4b48bce44a7372f8d6f3aafd, type: 3}
+      propertyPath: _tracks.Array.data[1].Clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 35061fdb32d6519408ce741d6fd85b15, type: 3}
+    - target: {fileID: 3111094178528935575, guid: a302624b4b48bce44a7372f8d6f3aafd, type: 3}
+      propertyPath: _tracks.Array.data[1].Priority
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3111094178528935575, guid: a302624b4b48bce44a7372f8d6f3aafd, type: 3}
+      propertyPath: _tracks.Array.data[1].FadeInDuration
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3111094178528935575, guid: a302624b4b48bce44a7372f8d6f3aafd, type: 3}
+      propertyPath: _tracks.Array.data[0].FadeOutDuration
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3111094178528935575, guid: a302624b4b48bce44a7372f8d6f3aafd, type: 3}
+      propertyPath: _tracks.Array.data[1].FadeOutDuration
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5478755440141900913, guid: a302624b4b48bce44a7372f8d6f3aafd, type: 3}
       propertyPath: m_Name
       value: SceneSample
@@ -26866,6 +26898,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 419424043}
   m_Mesh: {fileID: 160801022434109696, guid: d78db2ef5f92bf547a53a5315c367eb4, type: 3}
+--- !u!4 &426140451 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4389768897396861019, guid: 7f3dd51153c37be4abb2a9940e42b545, type: 3}
+  m_PrefabInstance: {fileID: 1183767001}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &431610778
 GameObject:
   m_ObjectHideFlags: 0
@@ -35443,7 +35480,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 473268702795870454, guid: 7f3dd51153c37be4abb2a9940e42b545, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1324857037800596830, guid: 7f3dd51153c37be4abb2a9940e42b545, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -91154,6 +91191,26 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 830578433113370403, guid: 7f3dd51153c37be4abb2a9940e42b545, type: 3}
+      propertyPath: m_Speed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 830578433113370403, guid: 7f3dd51153c37be4abb2a9940e42b545, type: 3}
+      propertyPath: m_BaseOffset
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6466236588374210633, guid: 7f3dd51153c37be4abb2a9940e42b545, type: 3}
+      propertyPath: _distanceToAction
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6466236588374210633, guid: 7f3dd51153c37be4abb2a9940e42b545, type: 3}
+      propertyPath: <Config>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: 39f09daec8b7bbf49b5c8c718eccacbd, type: 2}
+    - target: {fileID: 6466236588374210633, guid: 7f3dd51153c37be4abb2a9940e42b545, type: 3}
+      propertyPath: <Animator>k__BackingField
+      value: 
+      objectReference: {fileID: 2144788828}
     - target: {fileID: 8331167268980879596, guid: 7f3dd51153c37be4abb2a9940e42b545, type: 3}
       propertyPath: m_LocalPosition.x
       value: -7.986059
@@ -91208,6 +91265,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 473268702795870454, guid: 7f3dd51153c37be4abb2a9940e42b545, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2144788827}
+    - targetCorrespondingSourceObject: {fileID: 473268702795870454, guid: 7f3dd51153c37be4abb2a9940e42b545, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2144788834}
   m_SourcePrefab: {fileID: 100100000, guid: 7f3dd51153c37be4abb2a9940e42b545, type: 3}
 --- !u!1 &1188747029
 GameObject:
@@ -163645,8 +163705,8 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
+  MinDistance: 5
+  MaxDistance: 30
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -163681,7 +163741,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -163740,7 +163800,25 @@ MonoBehaviour:
   _animations:
   - AnimationName: Walk
     Clip: {fileID: 7400000, guid: 57dd53d55a096d7449a5e7d308ddf329, type: 2}
-    Speed: 1
+    Speed: 1.5
+--- !u!114 &2144788834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 708549700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5927954d5b1c744d960c8723c013b65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_KONTUR___Simulation._Scripts.GamePlay.NPC.StatueTerrorRadius
+  _outerRadius: 20
+  _innerRadius: 8
+  _obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 9
+  _eyeOrigin: {fileID: 426140451}
 --- !u!1 &9171100751133613
 GameObject:
   m_ObjectHideFlags: 0
@@ -165353,6 +165431,7 @@ GameObject:
   - component: {fileID: 8510132733615424017}
   - component: {fileID: 1956754774}
   - component: {fileID: 8510132733615424018}
+  - component: {fileID: 8510132733615424019}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -165689,12 +165768,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 947f9cbcd14577e48b53697c1c4d2d59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GamePlay.Enemy.Audio.FootstepAnimationEvent
-  _manualFootstepClips: []
   _audioSource: {fileID: 2144788827}
-  _footstepFolderPath: Audio/Monster/Footsteps
-  _volume: 1
-  _minPitch: 0.9
-  _maxPitch: 1.1
+  _footstepFolderPath: Audio/Monster/Footsteps/Lie
+  _volume: 2.5
+  _minPitch: 0.4
+  _maxPitch: 0.5
+--- !u!114 &8510132733615424019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8009987136042731422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82b122e8ba804ba59cd7e625294e9eb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KofeyekToolkit.LifeCycle.SceneLifecycleObject
 --- !u!1 &8670540288621172859
 GameObject:
   m_ObjectHideFlags: 0

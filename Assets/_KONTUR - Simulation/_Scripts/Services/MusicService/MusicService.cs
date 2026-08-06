@@ -8,11 +8,12 @@ namespace _KONTUR___Simulation._Scripts.Services
 {
     public sealed class MusicService : MonoBehaviour, IService, ITickable
     {
+        [SerializeField] private List<MusicTrackConfig> _tracks = new();
+
         private const float ChaseResumeSilenceThreshold = 7f;
         private const string ChaseTrackKey = "Chase";
         private const string ShelterTrackKey = "Hiding";
-
-        [SerializeField] private List<MusicTrackConfig> _tracks = new();
+        private const string TerrorTrackKey = "Terror";
 
         private EventBus _eventBus;
         private readonly Dictionary<string, TrackRuntime> _runtimeTracks = new();
@@ -73,11 +74,11 @@ namespace _KONTUR___Simulation._Scripts.Services
             _eventBus.Register<ChaseEndedEvent>(OnChaseEnd);
             _eventBus.Register<ShelterEnterEvent>(OnShelterEnter);
             _eventBus.Register<ShelterLeaveEvent>(OnShelterLeave);
+            _eventBus.Register<TerrorEnterEvent>(OnTerrorEnter);
+            _eventBus.Register<TerrorLeaveEvent>(OnTerrorLeave);
 
             ServiceLocator.Get<TickSystem>().Register(this);
 
-            // TODO: Move into separate trigger script / make unique music loader for each scene
-            
             PlayTrack("Ambient");
         }
 
@@ -89,6 +90,8 @@ namespace _KONTUR___Simulation._Scripts.Services
                 _eventBus.Unregister<ChaseEndedEvent>(OnChaseEnd);
                 _eventBus.Unregister<ShelterEnterEvent>(OnShelterEnter);
                 _eventBus.Unregister<ShelterLeaveEvent>(OnShelterLeave);
+                _eventBus.Unregister<TerrorEnterEvent>(OnTerrorEnter);
+                _eventBus.Unregister<TerrorLeaveEvent>(OnTerrorLeave);
             }
 
             ServiceLocator.Get<TickSystem>()?.Unregister(this);
@@ -197,9 +200,7 @@ namespace _KONTUR___Simulation._Scripts.Services
 
             StopTrack(ChaseTrackKey);
         }
-
-        // Shelter — простой луп поверх всего
-
+        
         private void OnShelterEnter(ShelterEnterEvent e)
         {
             PlayTrack(ShelterTrackKey);
@@ -208,6 +209,16 @@ namespace _KONTUR___Simulation._Scripts.Services
         private void OnShelterLeave(ShelterLeaveEvent e)
         {
             StopTrack(ShelterTrackKey);
+        }
+
+        private void OnTerrorEnter(TerrorEnterEvent e)
+        {
+            PlayTrack(TerrorTrackKey);
+        }
+
+        private void OnTerrorLeave(TerrorLeaveEvent e)
+        {
+            StopTrack(TerrorTrackKey);
         }
     }
 }

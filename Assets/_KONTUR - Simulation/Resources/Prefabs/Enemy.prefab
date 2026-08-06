@@ -1659,9 +1659,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 947f9cbcd14577e48b53697c1c4d2d59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GamePlay.Enemy.Audio.FootstepAnimationEvent
-  _manualFootstepClips: []
   _audioSource: {fileID: 1084971707342789873}
-  _footstepFolderPath: Audio/Monster/Footsteps
+  _footstepFolderPath: Audio/Monster/Footsteps/Mom
   _volume: 1
   _minPitch: 0.9
   _maxPitch: 1.1

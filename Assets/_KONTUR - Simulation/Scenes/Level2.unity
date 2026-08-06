@@ -49065,6 +49065,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7ca8f020162faaf42a2e5f038174f15e, type: 3}
   m_PrefabInstance: {fileID: 633732747}
   m_PrefabAsset: {fileID: 0}
+--- !u!23 &633732749 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 7ca8f020162faaf42a2e5f038174f15e, type: 3}
+  m_PrefabInstance: {fileID: 633732747}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &636414623
 GameObject:
   m_ObjectHideFlags: 0
@@ -57146,7 +57151,7 @@ Transform:
   m_GameObject: {fileID: 773529469}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 14.43, y: 0.598, z: -18.256}
+  m_LocalPosition: {x: 14.384, y: -0.262, z: -18.298}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -57186,6 +57191,14 @@ MonoBehaviour:
   _descriptionText: Razors
   _progressionKey: items_collected
   _progressionValue: 1
+  _infectionSound: {fileID: 8300000, guid: 408486d930be03c44b4d91f2531f1fb2, type: 3}
+  _soundVolume: 1
+  _infectedMaterial: {fileID: 2100000, guid: 91d3ddd726da71245920866de8108fdd, type: 2}
+  _renderers:
+  - {fileID: 8729811659842974910}
+  - {fileID: 718304845}
+  _pointLight: {fileID: 1141547671}
+  _itemCollider: {fileID: 0}
 --- !u!1 &784656463
 GameObject:
   m_ObjectHideFlags: 0
@@ -64311,6 +64324,11 @@ PrefabInstance:
 --- !u!4 &796139861 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: ba83c234f582c8e42ae186079ca0b310, type: 3}
+  m_PrefabInstance: {fileID: 796139860}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &796139862 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: ba83c234f582c8e42ae186079ca0b310, type: 3}
   m_PrefabInstance: {fileID: 796139860}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &796617519
@@ -72832,6 +72850,13 @@ MonoBehaviour:
   _descriptionText: Money
   _progressionKey: items_collected
   _progressionValue: 1
+  _infectionSound: {fileID: 8300000, guid: 408486d930be03c44b4d91f2531f1fb2, type: 3}
+  _soundVolume: 1
+  _infectedMaterial: {fileID: 2100000, guid: 91d3ddd726da71245920866de8108fdd, type: 2}
+  _renderers:
+  - {fileID: 633732749}
+  _pointLight: {fileID: 1076831300}
+  _itemCollider: {fileID: 0}
 --- !u!1001 &867926793
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -77802,6 +77827,13 @@ MonoBehaviour:
   _descriptionText: Passport
   _progressionKey: items_collected
   _progressionValue: 1
+  _infectionSound: {fileID: 8300000, guid: 408486d930be03c44b4d91f2531f1fb2, type: 3}
+  _soundVolume: 1
+  _infectedMaterial: {fileID: 2100000, guid: 91d3ddd726da71245920866de8108fdd, type: 2}
+  _renderers:
+  - {fileID: 796139862}
+  _pointLight: {fileID: 1066669611}
+  _itemCollider: {fileID: 0}
 --- !u!1 &919294371
 GameObject:
   m_ObjectHideFlags: 0
@@ -87363,8 +87395,8 @@ Transform:
   m_GameObject: {fileID: 1104442749}
   serializedVersion: 2
   m_LocalRotation: {x: 0.4944973, y: -0.5054428, z: 0.5054428, w: 0.4944973}
-  m_LocalPosition: {x: 18.717, y: 0.2214, z: 1.882}
-  m_LocalScale: {x: 3.229452, y: 3.8815405, z: 7.372861}
+  m_LocalPosition: {x: 18.717, y: -0.2486, z: 1.882}
+  m_LocalScale: {x: 3.229452, y: 3.8815405, z: 3.891396}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 891452816}
@@ -143910,7 +143942,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.1
+  m_VoxelSize: 0.28333333
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: 17379adaee58ce7418568bc789aed551, type: 2}
   m_BuildHeightMesh: 0

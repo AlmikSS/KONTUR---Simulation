@@ -1,10 +1,12 @@
 public sealed class SceneState
 {
     public DeathPayload Death { get; set; }
+    public int CurrentLevel { get; set; }
 
     public void Clear()
     {
         Death = null;
+        CurrentLevel = 0;
     }
 }
 

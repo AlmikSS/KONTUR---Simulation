@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::_KONTUR___Simulation._Scripts.GamePlay.Progression.ProgressionCondition
   <Key>k__BackingField: items_collected
   <RequiredValue>k__BackingField: 1
-  _comparison: 0
+  _comparison: 5

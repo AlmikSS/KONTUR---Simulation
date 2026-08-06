@@ -164,7 +164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_KONTUR___Simulation._Scripts.SceneManagement.SceneService
   _loadingSceneName: LoadScene
-  _firstLevelSceneName: Laboratory
+  _firstLevelSceneName: Level1
 --- !u!1 &1033670943
 GameObject:
   m_ObjectHideFlags: 0

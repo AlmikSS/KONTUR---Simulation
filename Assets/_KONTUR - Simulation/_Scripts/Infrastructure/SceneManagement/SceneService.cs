@@ -8,7 +8,7 @@ namespace _KONTUR___Simulation._Scripts.SceneManagement
     {
         [Header("Scenes")]
         [SerializeField] private string _loadingSceneName = "LoadScene";
-        [SerializeField] private string _firstLevelSceneName;
+        [SerializeField] private string _firstLevelSceneName = "Laboratory";
 
         private Coroutine _loadingRoutine;
 

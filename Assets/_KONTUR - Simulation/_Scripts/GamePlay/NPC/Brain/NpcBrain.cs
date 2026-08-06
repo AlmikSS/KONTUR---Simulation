@@ -9,7 +9,7 @@ namespace _KONTUR___Simulation._Scripts.GamePlay.NPC.Brain
 {
     [SelectionBase]
     [RequireComponent(typeof(NavMeshAgent))]
-    public sealed class NpcBrain : MonoBehaviour, ITickable, ISpawnable, IDespawnable
+    public sealed class NpcBrain : MonoBehaviour, ITickable, IDespawnable
     {
         [field: SerializeField] public NavMeshAgent Agent { get; private set; }
         [field: SerializeField] public NpcRoute Route { get; private set; }
@@ -34,7 +34,7 @@ namespace _KONTUR___Simulation._Scripts.GamePlay.NPC.Brain
         public float UpdateTimer => _updateTimer;
         public float LastUpdateTime => _lastUpdateTime;
 
-        public void OnSpawn()
+        public void Initialize()
         {
             Blackboard = new NpcBlackboard();
             _updateTimer = Random.Range(0f, _updateTimer);

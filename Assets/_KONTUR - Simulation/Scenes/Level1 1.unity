@@ -24977,9 +24977,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2395806571928120733, guid: 0e8a509b762ba104f92b0340f42f06eb, type: 3}
+      propertyPath: _landTiltMultiplier
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2395806571928120733, guid: 0e8a509b762ba104f92b0340f42f06eb, type: 3}
+      propertyPath: _landImpactMultiplier
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 3119692521817144616, guid: 0e8a509b762ba104f92b0340f42f06eb, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 3119692521817144616, guid: 0e8a509b762ba104f92b0340f42f06eb, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5539839903500464658, guid: 0e8a509b762ba104f92b0340f42f06eb, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 21.475586
       objectReference: {fileID: 0}
     - target: {fileID: 5601545716339998569, guid: 0e8a509b762ba104f92b0340f42f06eb, type: 3}
       propertyPath: m_LocalPosition.x
@@ -25031,6 +25047,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6275122691653539753, guid: 0e8a509b762ba104f92b0340f42f06eb, type: 3}
       propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6275122691653539753, guid: 0e8a509b762ba104f92b0340f42f06eb, type: 3}
+      propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

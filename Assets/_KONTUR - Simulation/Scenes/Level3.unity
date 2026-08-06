@@ -2718,7 +2718,7 @@ MonoBehaviour:
   onEffectComplete:
     m_PersistentCalls:
       m_Calls: []
-  _config: {fileID: 11400000, guid: 5dbd40ec62fea09418b07eaeeab51f2c, type: 2}
+  _config: {fileID: 11400000, guid: 5c6f1e512b1c66d429a1afd7e68afe50, type: 2}
   _nextLevel: 4
 --- !u!65 &1434505085
 BoxCollider:

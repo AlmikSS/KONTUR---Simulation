@@ -16,19 +16,19 @@ namespace _KONTUR___Simulation._Scripts.GamePlay.UI.Laboratory
         
         [Title("Settings")]
         [SerializeField, Slider(0f, 0.1f)] private float _letterWaitTime;
+        [SerializeField] private DayConfig _config;
         
         private DayConfig _currentDayConfig;
         private Coroutine _textingRoutine;
 
         private void Start()
         {
-            Initialize(SceneService.Instance.State.DayConfig);
+            _currentDayConfig = SceneService.Instance.State.DayConfig == null ? _config : SceneService.Instance.State.DayConfig;
+            Initialize();
         }
         
-        private void Initialize(DayConfig config)
+        private void Initialize()
         {
-            _currentDayConfig = config;
-            
             if (_textingRoutine != null)
                 StopCoroutine(_textingRoutine);
             

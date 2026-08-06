@@ -26,6 +26,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_KONTUR - Simulation/Scenes/Level4.unity
     guid: b2016000ad6064f4090a566a174e5131
+  - enabled: 1
+    path: Assets/_KONTUR - Simulation/Scenes/Titri.unity
+    guid: e1cb627abe054744eb65310a1768c8cf
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: a4ea73e1eab9c3346a091eb578874d16, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}

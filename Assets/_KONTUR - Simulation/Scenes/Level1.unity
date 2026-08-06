@@ -29389,7 +29389,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c3b329f767e4d68a7ff7e4e05235ed2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_KONTUR___Simulation._Scripts.GamePlay.LevelTransitionTrigger
-  _config: {fileID: 11400000, guid: f7b4725ceaf425845aff2a15ee214fb7, type: 2}
+  _config: {fileID: 11400000, guid: 055d7ea2a5811b54896bd4ba85200dc6, type: 2}
   _nextLevel: 2
 --- !u!114 &1701667932
 MonoBehaviour:

@@ -1,5 +1,6 @@
 ﻿using _KONTUR___Simulation._Scripts.GamePlay.NPC.Brain;
 using KofeyekToolkit.Events;
+using UnityEngine;
 
 namespace _KONTUR___Simulation._Scripts.GamePlay.NPC
 {
@@ -33,6 +34,11 @@ namespace _KONTUR___Simulation._Scripts.GamePlay.NPC
             if (_npcBrain.Blackboard.IsPlayerInVision && !_npcBrain.Blackboard.IsPlayerHidden)
             {
                 _timeSinceLastSeen = 0f;
+                
+                if (Vector3.Distance(_npcBrain.transform.position, _npcBrain.Blackboard.PlayerPosition) <= _npcBrain.Config.AttackDistance)
+                {
+                    _eventBus.Invoke(new PlayerDiedEvent(PlayerDiedFromType.MomEntity));
+                }
             }
             else
             {

@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using _KONTUR___Simulation._Scripts.SceneManagement;
 using TMPro;
 using TriInspector;
 using UnityEngine;
@@ -15,17 +16,16 @@ namespace _KONTUR___Simulation._Scripts.GamePlay.UI.Laboratory
         
         [Title("Settings")]
         [SerializeField, Slider(0f, 0.1f)] private float _letterWaitTime;
-        [SerializeField] private DayConfig _config;
         
         private DayConfig _currentDayConfig;
         private Coroutine _textingRoutine;
 
-        private void Awake()
+        private void Start()
         {
-            Initialize(_config);
+            Initialize(SceneService.Instance.State.DayConfig);
         }
         
-        public void Initialize(DayConfig config)
+        private void Initialize(DayConfig config)
         {
             _currentDayConfig = config;
             
@@ -62,6 +62,9 @@ namespace _KONTUR___Simulation._Scripts.GamePlay.UI.Laboratory
                 yield return new WaitUntil(() => UnityEngine.Input.GetKeyDown(KeyCode.Space));
                 yield return null;
             }
+            
+            yield return new WaitUntil(() => UnityEngine.Input.GetKeyDown(KeyCode.Space));
+            SceneService.Instance.LoadScene("Level" + SceneService.Instance.State.CurrentLevel);
         }
     }
 }

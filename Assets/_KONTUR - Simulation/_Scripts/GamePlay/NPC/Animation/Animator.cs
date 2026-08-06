@@ -175,28 +175,34 @@ namespace _KONTUR___Simulation._Scripts.GamePlay.NPC
                 Debug.LogWarning($"[Animator] Animation '{key}' not found on {gameObject.name}");
                 return;
             }
-            
+
+            float baseSpeed = GetBaseSpeed(key);
+            float finalSpeed = baseSpeed * Mathf.Max(0f, speedMultiplier);
+
+            if (_currentKey == key)
+            {
+                SetSpeed(finalSpeed);
+                return;
+            }
+
             if (_isFadingOut)
             {
                 _isFadingOut = false;
                 _unityAnimator.SetLayerWeight(DEFAULT_LAYER, 1f);
             }
             
-            float baseSpeed = GetBaseSpeed(key);
-            float finalSpeed = baseSpeed * Mathf.Max(0f, speedMultiplier);
-            
             if (blendTime < 0f)
                 blendTime = _defaultBlendTime;
             
             if (blendTime > 0f)
             {
-                _unityAnimator.CrossFade(key, blendTime, DEFAULT_LAYER);  // ← key, а не clip.name
+                _unityAnimator.CrossFade(key, blendTime, DEFAULT_LAYER);
                 _isCrossfading = true;
                 _targetBlendTime = blendTime;
             }
             else
             {
-                _unityAnimator.Play(key, DEFAULT_LAYER, 0f);  // ← key, а не clip.name
+                _unityAnimator.Play(key, DEFAULT_LAYER, 0f);
                 _isCrossfading = false;
                 _targetBlendTime = 0f;
             }

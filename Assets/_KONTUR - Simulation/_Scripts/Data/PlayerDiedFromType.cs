@@ -2,6 +2,6 @@ public enum PlayerDiedFromType
 {
     Unknown,
     MomEntity,
-    StatueEntity,
+    LieEntity,
     Fall,
 }

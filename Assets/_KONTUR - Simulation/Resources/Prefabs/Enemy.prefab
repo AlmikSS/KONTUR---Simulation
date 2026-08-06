@@ -1095,7 +1095,7 @@ MonoBehaviour:
   sphereRadius: 0.3
   handOffset: -0.3
   rayAngleOffset: 20
-  verticalRandomRange: {x: -5, y: 0}
+  verticalRandomRange: {x: -4, y: 0}
   maxReachDistance: 4
   releaseAngleLimit: -0.7
   blendInDuration: 0.2
@@ -1165,7 +1165,7 @@ MonoBehaviour:
   sphereRadius: 0.3
   handOffset: -0.2
   rayAngleOffset: 20
-  verticalRandomRange: {x: -5, y: 0}
+  verticalRandomRange: {x: -4, y: 0}
   maxReachDistance: 4
   releaseAngleLimit: -0.7
   blendInDuration: 0.2

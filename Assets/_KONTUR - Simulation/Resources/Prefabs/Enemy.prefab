@@ -1090,7 +1090,7 @@ MonoBehaviour:
   sideMultiplier: 1
   environmentLayer:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 512
   rayDistance: 3
   sphereRadius: 0.3
   handOffset: -0.3
@@ -1160,7 +1160,7 @@ MonoBehaviour:
   sideMultiplier: -1
   environmentLayer:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 512
   rayDistance: 3
   sphereRadius: 0.3
   handOffset: -0.2

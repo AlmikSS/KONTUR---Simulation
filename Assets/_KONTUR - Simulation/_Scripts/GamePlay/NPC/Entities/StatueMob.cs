@@ -1,4 +1,5 @@
 ﻿using _KONTUR___Simulation._Scripts.GamePlay.Player;
+using KofeyekToolkit.Events;
 using KofeyekToolkit.LifeCycle;
 using KofeyekToolkit.LifeCycle.Interfaces;
 using KofeyekToolkit.TickSystem;
@@ -20,6 +21,7 @@ namespace _KONTUR___Simulation._Scripts.GamePlay.NPC
         [SerializeField] private float _distanceToAction;
         
         private NavMeshAgent _agent;
+        private EventBus _eventBus;
         private Transform _playerTransform;
         private Camera _playerCamera;
 
@@ -27,6 +29,7 @@ namespace _KONTUR___Simulation._Scripts.GamePlay.NPC
         
         public void OnSpawn()
         {
+            _eventBus = ServiceLocator.Get<EventBus>();
             _agent = GetComponent<NavMeshAgent>();
             _playerTransform = PlayerContext.Transform;
             _playerCamera = PlayerContext.Camera;
@@ -56,14 +59,16 @@ namespace _KONTUR___Simulation._Scripts.GamePlay.NPC
         public void OnDespawn()
         {
             _agent = null;
+            _eventBus = null;
             _playerTransform = null;
             _playerCamera = null;
+
             ServiceLocator.Get<TickSystem>().Unregister(this);
         }
 
         private void OnDestroy()
         {
-            ServiceLocator.Get<TickSystem>()?.Unregister(this);
+            OnDespawn();
         }
 
         private void CheckDistance()
@@ -72,7 +77,7 @@ namespace _KONTUR___Simulation._Scripts.GamePlay.NPC
                 return;
             if (_isDanger)
             {
-                //TODO Game over
+                _eventBus.Invoke(new PlayerDiedEvent(PlayerDiedFromType.LieEntity));
             }
             else
             {

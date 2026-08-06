@@ -612,7 +612,7 @@ MonoBehaviour:
   _text: {fileID: 1775795481}
   _background: {fileID: 434158032}
   _letterWaitTime: 0.01
-  _defaultDayConfig: {fileID: 11400000, guid: 03a84fec606c3b240912dca4981d7d8a, type: 2}
+  _config: {fileID: 11400000, guid: 5dbd40ec62fea09418b07eaeeab51f2c, type: 2}
 --- !u!1 &1369337881
 GameObject:
   m_ObjectHideFlags: 0

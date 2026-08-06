@@ -17,4 +17,3 @@ MonoBehaviour:
   _waitMinMaxTime: {x: 1, y: 5}
   _bewildermentMinMaxTime: {x: 6, y: 10}
   _trailLossTimeout: 6
-  _attackDistance: 2

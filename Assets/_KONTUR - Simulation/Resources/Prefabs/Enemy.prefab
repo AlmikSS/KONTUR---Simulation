@@ -1090,12 +1090,12 @@ MonoBehaviour:
   sideMultiplier: 1
   environmentLayer:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 1
   rayDistance: 3
   sphereRadius: 0.3
   handOffset: -0.3
   rayAngleOffset: 20
-  verticalRandomRange: {x: -4, y: 0}
+  verticalRandomRange: {x: -5, y: 0}
   maxReachDistance: 4
   releaseAngleLimit: -0.7
   blendInDuration: 0.2
@@ -1160,12 +1160,12 @@ MonoBehaviour:
   sideMultiplier: -1
   environmentLayer:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 1
   rayDistance: 3
   sphereRadius: 0.3
   handOffset: -0.2
   rayAngleOffset: 20
-  verticalRandomRange: {x: -4, y: 0}
+  verticalRandomRange: {x: -5, y: 0}
   maxReachDistance: 4
   releaseAngleLimit: -0.7
   blendInDuration: 0.2

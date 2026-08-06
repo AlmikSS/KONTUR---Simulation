@@ -2,7 +2,7 @@
 using _KONTUR___Simulation._Scripts.GamePlay.Interactors;
 using _KONTUR___Simulation._Scripts.GamePlay.Player;
 using _KONTUR___Simulation._Scripts.Input;
-using Core.Input;
+
 using KofeyekToolkit.DevConsole;
 using KofeyekToolkit.Events;
 using KofeyekToolkit.LifeCycle.Interfaces;
@@ -53,9 +53,6 @@ namespace GamePlay.Player
         
         public void Tick(float deltaTime)
         {
-            if (_inputSystem.Context != InputContext.GamePlay)
-                return;
-            
             if (PlayerContext.Camera == null)
                 return;
 

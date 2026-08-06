@@ -1,13 +1,5 @@
 fileFormatVersion: 2
-guid: a2631e95d102e9f4886ecf675ade77b1
-AssetOrigin:
-  serializedVersion: 1
-  productId: 187634
-  packageName: "Handpainted Grass & Ground Textures \u2014 Top-Down RPG | Terrain
-    Tool"
-  packageVersion: 1.4.1
-  assetPath: Assets/Handpainted_Grass_and_Ground_Textures/Textures/Dirt/dirt_clay/dirt_clay_left.png
-  uploadId: 899394
+guid: b56d187ca0199844885d70060efc3eb1
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -73,14 +65,14 @@ TextureImporter:
   ignorePngGamma: 0
   applyGammaDecoding: 0
   swizzle: 50462976
-  cookieLightType: 1
+  cookieLightType: 0
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 64
+    maxTextureSize: 1024
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 3
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0

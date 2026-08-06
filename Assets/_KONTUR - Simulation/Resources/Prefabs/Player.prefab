@@ -706,7 +706,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 21.475708, y: 27}
+  m_AnchoredPosition: {x: 21.475586, y: 27}
   m_SizeDelta: {x: 546, y: 9}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &6206035441976442770
@@ -1054,7 +1054,7 @@ MonoBehaviour:
   _springStiffness: 33.5
   _springDamping: 3.73
   _landTiltMultiplier: 5
-  _landImpactMultiplier: 5
+  _landImpactMultiplier: 4
   _fallHeightImpactMultiplier: 2
   _zVelocityImpulseMultiplier: 5
   _lookAtSpeed: 12
@@ -1075,6 +1075,7 @@ MonoBehaviour:
   - {fileID: 1253919071882657267}
   - {fileID: 2395806571928120733}
   - {fileID: 7923515935580642661}
+  - {fileID: 8600001696954904336}
   _cameraTransform: {fileID: 8186045136575875519}
   _moveSpeed: 10
   _lookSensitivity: 0.1

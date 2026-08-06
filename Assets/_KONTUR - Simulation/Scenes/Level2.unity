@@ -2409,12 +2409,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 15823262}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 14.663, y: 2.208, z: 1.7}
   m_LocalScale: {x: 0.49964088, y: 0.6846857, z: 0.03191342}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 891452816}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1 &16553896
 GameObject:
@@ -62566,6 +62566,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 788b5859bfb63cf4d966d935e71f5a8d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 791956045}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 788b5859bfb63cf4d966d935e71f5a8d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 791956046}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 788b5859bfb63cf4d966d935e71f5a8d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 791956047}
   m_SourcePrefab: {fileID: 100100000, guid: 788b5859bfb63cf4d966d935e71f5a8d, type: 3}
 --- !u!4 &791956043 stripped
 Transform:
@@ -62599,6 +62605,121 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 2534964839176971238, guid: 788b5859bfb63cf4d966d935e71f5a8d, type: 3}
+--- !u!114 &791956046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 791956044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7459517b4fd91646b4c9e388bac8811, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Effects.Game.Level2.Level2TVEffect
+  _lights:
+  - {fileID: 1665184275}
+  - {fileID: 85664655}
+  _audioSource: {fileID: 791956047}
+  _turnOnClip: {fileID: 8300000, guid: 554a94aeeb44f52409e4602441bfb43f, type: 3}
+  _loopingStatic: {fileID: 8300000, guid: 87e5c389ce30e7c479f015969f7b2f9e, type: 3}
+--- !u!82 &791956047
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 791956044}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 25
+  MaxDistance: 300
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &792376020
 GameObject:
   m_ObjectHideFlags: 0
@@ -75342,6 +75463,7 @@ Transform:
   - {fileID: 1117717030}
   - {fileID: 1100870178}
   - {fileID: 1854853084}
+  - {fileID: 15823266}
   m_Father: {fileID: 41566260}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &893312257
@@ -92234,7 +92356,7 @@ PrefabInstance:
       objectReference: {fileID: 2144788828}
     - target: {fileID: 8331167268980879596, guid: 7f3dd51153c37be4abb2a9940e42b545, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.986059
+      value: 1.05
       objectReference: {fileID: 0}
     - target: {fileID: 8331167268980879596, guid: 7f3dd51153c37be4abb2a9940e42b545, type: 3}
       propertyPath: m_LocalPosition.y
@@ -92242,7 +92364,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8331167268980879596, guid: 7f3dd51153c37be4abb2a9940e42b545, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -365.02344
+      value: -357.38
       objectReference: {fileID: 0}
     - target: {fileID: 8331167268980879596, guid: 7f3dd51153c37be4abb2a9940e42b545, type: 3}
       propertyPath: m_LocalRotation.w
@@ -115507,6 +115629,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.BoxCollider, UnityEngine
         m_MethodName: set_enabled
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 791956046}
+        m_TargetAssemblyTypeName: Effects.Game.Level2.Level2TVEffect, Assembly-CSharp
+        m_MethodName: TurnOnTV
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -167269,5 +167403,4 @@ SceneRoots:
   - {fileID: 1757633909}
   - {fileID: 1832830913}
   - {fileID: 1797599666}
-  - {fileID: 15823266}
   - {fileID: 1570432464}

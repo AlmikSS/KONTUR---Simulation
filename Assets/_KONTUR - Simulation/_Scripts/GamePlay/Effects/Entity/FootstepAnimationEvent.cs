@@ -7,7 +7,6 @@ namespace GamePlay.Enemy.Audio
     public class FootstepAnimationEvent : MonoBehaviour, ISpawnable, IDespawnable
     {
         [Header("Manual Assignment (Alternative)")]
-        // [SerializeField] private AudioClip[] _manualFootstepClips;
         [SerializeField] private AudioSource _audioSource;
 
         [Header("Resource Path")]
@@ -38,17 +37,15 @@ namespace GamePlay.Enemy.Audio
             }
         }
 
+        public void Oestroy()
+        {
+            OnDespawn();
+        }
+
         private void LoadClips()
         {
             if (_clipsLoaded) 
                 return;
-
-            // if (_manualFootstepClips != null && _manualFootstepClips.Length > 0)
-            // {
-            //     _footstepClips = _manualFootstepClips;
-            //     _clipsLoaded = true;
-            //     return;
-            // }
             
             if (!string.IsNullOrEmpty(_footstepFolderPath))
             {

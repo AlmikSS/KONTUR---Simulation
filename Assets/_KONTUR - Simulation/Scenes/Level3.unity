@@ -637,7 +637,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1253919071882657267, guid: 0e8a509b762ba104f92b0340f42f06eb, type: 3}
       propertyPath: _walkSpeed
-      value: 20
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3119692521817144616, guid: 0e8a509b762ba104f92b0340f42f06eb, type: 3}
       propertyPath: m_Name
@@ -4178,8 +4178,8 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 50
-  MaxDistance: 827.5
+  MinDistance: 111.2
+  MaxDistance: 503.7
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0

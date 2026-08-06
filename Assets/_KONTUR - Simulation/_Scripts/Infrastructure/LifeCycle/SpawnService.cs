@@ -124,7 +124,7 @@ namespace KofeyekToolkit.LifeCycle
 
         internal void NotifyComponents<TInterface>(GameObject target, Action<TInterface> action) where TInterface : class
         {
-            var components = target.GetComponents<TInterface>();
+            var components = target.GetComponentsInChildren<TInterface>(true);
 
             foreach (var component in components)
             {
